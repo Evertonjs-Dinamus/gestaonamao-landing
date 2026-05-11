@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F0F10">
+
+  <title>Política de Privacidade — Gestão na Mão</title>
+  <meta name="description" content="Política de Privacidade do Gestão na Mão — como tratamos seus dados em conformidade com a LGPD.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-gold': '#F5B544',
+            'brand-gold-dark': '#D4940A',
+            'ink-900': '#0F0F10',
+            'ink-700': '#3A3A3D',
+            'ink-500': '#6B6B70',
+            'bg-soft': '#FAFAF7',
+            'bg-card': '#FFFFFF',
+            'border-soft': '#EAEAE6',
+            'success': '#1F9D55',
+            'danger-soft': '#C0392B',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Arial', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  </style>
+</head>
+<body class="bg-bg-card text-ink-700 font-sans">
+
+  <!-- ============== NAV ============== -->
+  <header class="sticky top-0 z-50 bg-bg-card/95 backdrop-blur border-b border-border-soft" x-data="{ open: false }">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3">
+        <img
+          src="assets/logo-frete.png"
+          alt="Logo Gestão na Mão"
+          class="w-10 h-10 rounded-lg object-contain"
+        />
+        <div class="flex flex-col leading-tight">
+          <span class="text-base font-bold text-ink-900">
+            Gestão na <span class="text-brand-gold-dark">Mão</span>
+          </span>
+          <span class="text-[10px] text-ink-700">by Dinamus</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-ink-700">
+        <a href="index.html#solucao" class="hover:text-ink-900">Solução</a>
+        <a href="index.html#preco" class="hover:text-ink-900">Preço</a>
+        <a href="index.html#faq" class="hover:text-ink-900">FAQ</a>
+      </nav>
+
+      <a href="https://gestaonamao.app.br/cadastro" class="hidden md:inline-flex items-center justify-center bg-brand-gold hover:bg-brand-gold-dark text-ink-900 font-semibold text-sm px-5 py-2.5 rounded-lg transition">
+        Começar grátis
+      </a>
+
+      <button @click="open = !open" class="md:hidden p-2 -mr-2 text-ink-900" aria-label="Abrir menu">
+        <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg x-show="open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div x-show="open" @click.outside="open = false" x-transition class="md:hidden border-t border-border-soft bg-bg-card" style="display:none">
+      <nav class="px-4 py-4 flex flex-col gap-4 text-base">
+        <a href="index.html#solucao" @click="open = false" class="text-ink-700">Solução</a>
+        <a href="index.html#preco" @click="open = false" class="text-ink-700">Preço</a>
+        <a href="index.html#faq" @click="open = false" class="text-ink-700">FAQ</a>
+        <a href="https://gestaonamao.app.br/cadastro" @click="open = false" class="bg-brand-gold hover:bg-brand-gold-dark text-ink-900 font-semibold text-center px-5 py-3 rounded-lg">
+          Começar grátis
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============== CONTEÚDO ============== -->
+  <main class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16" style="max-width: 720px;">
+    <a href="index.html" class="inline-flex items-center gap-2 text-sm text-ink-500 hover:text-ink-900 transition mb-8">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Voltar à página inicial
+    </a>
+
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-ink-900 leading-tight tracking-tight">
+      Política de Privacidade
+    </h1>
+    <p class="mt-3 text-sm text-ink-500">Última atualização: 10 de maio de 2026</p>
+
+    <div class="mt-10 space-y-10">
+
+      <section>
+        <h2 class="text-xl font-bold text-ink-900">1. Quem somos</h2>
+        <p class="mt-3 leading-relaxed">O Gestão na Mão é operado pela Dinamus. Esta Política explica quais dados a gente coleta, como usa e como protege.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink-900">2. Dados que a gente coleta</h2>
+        <p class="mt-3 leading-relaxed">Pra você usar o Gestão na Mão, a gente coleta: nome, e-mail, telefone (opcional), dados do veículo (tipo, ano), dados dos fretes que você cadastra (datas, KM, valores), dados de manutenção, e dados de pagamento (processados pelo Mercado Pago — a gente NÃO armazena seu cartão).</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink-900">3. Pra que a gente usa os dados</h2>
+        <p class="mt-3 leading-relaxed">Os dados são usados pra: operar o serviço (mostrar seus relatórios, fazer cálculos), enviar avisos importantes (manutenção próxima, fim de assinatura), processar pagamentos via Mercado Pago, e melhorar o produto. A gente NÃO vende dados, NÃO compartilha com anunciantes, e NÃO usa pra propaganda de terceiros.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink-900">4. Compartilhamento</h2>
+        <p class="mt-3 leading-relaxed">Os únicos compartilhamentos são com: Mercado Pago (pra processar pagamentos), Supabase (banco de dados onde seus dados ficam guardados de forma criptografada), Resend (envio de e-mails transacionais). Todos esses serviços têm políticas próprias de privacidade compatíveis com a LGPD.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink-900">5. Segurança</h2>
+        <p class="mt-3 leading-relaxed">Seus dados ficam num banco protegido com criptografia. Sua senha é armazenada de forma irreversível (hash). Você acessa só com sua senha. Se desconfiar de invasão, troque a senha imediatamente.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink-900">6. Seus direitos (LGPD)</h2>
+        <p class="mt-3 leading-relaxed">De acordo com a LGPD, você tem direito a: acessar seus dados, corrigir dados incorretos, apagar sua conta e dados (em até 30 dias), exportar seus dados, e revogar consentimentos. Pra qualquer pedido, mande mensagem no WhatsApp <a href="https://wa.me/5534997989375?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20Gest%C3%A3o%20na%20M%C3%A3o." class="text-brand-gold-dark font-semibold hover:underline">(34) 99798-9375</a> ou em Perfil → Privacidade no app.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink-900">7. Cookies</h2>
+        <p class="mt-3 leading-relaxed">O site usa cookies essenciais pra funcionar (manter você logado). A gente NÃO usa cookies de rastreamento ou publicidade.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink-900">8. Crianças e adolescentes</h2>
+        <p class="mt-3 leading-relaxed">O Gestão na Mão é destinado a maiores de 18 anos. Não coletamos dados de crianças intencionalmente.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink-900">9. Alterações nesta Política</h2>
+        <p class="mt-3 leading-relaxed">Esta Política pode ser atualizada. Vamos avisar por e-mail com 15 dias de antecedência sobre mudanças relevantes.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-ink-900">10. Contato</h2>
+        <p class="mt-3 leading-relaxed">Dúvidas sobre privacidade? Manda no WhatsApp: <a href="https://wa.me/5534997989375?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20Gest%C3%A3o%20na%20M%C3%A3o." class="text-brand-gold-dark font-semibold hover:underline">(34) 99798-9375</a>.</p>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============== FOOTER ============== -->
+  <footer class="bg-ink-900 text-white/70 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+      <div class="flex flex-col items-center text-center gap-6">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <img
+            src="assets/logo-frete.png"
+            alt="Logo Gestão na Mão"
+            class="w-10 h-10 rounded-lg object-contain"
+          />
+          <span class="text-xl font-bold text-white">
+            Gestão na <span class="text-brand-gold">Mão</span>
+          </span>
+        </div>
+
+        <nav class="flex items-center gap-8 text-sm">
+          <a href="termos.html" class="hover:text-white">Termos de uso</a>
+          <a href="privacidade.html" class="hover:text-white">Privacidade</a>
+        </nav>
+
+        <a href="https://wa.me/5534997989375?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20Gest%C3%A3o%20na%20M%C3%A3o." class="inline-flex items-center gap-2 text-sm text-white/60 hover:text-brand-gold transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>
+          Fale conosco no WhatsApp
+        </a>
+
+        <p class="text-xs text-white/40 mt-4">
+          © 2026 Gestão na Mão
+        </p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

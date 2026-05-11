@@ -1,0 +1,47 @@
+# OS
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.history/
+
+# Logs e temp
+*.log
+*.tmp
+*.temp
+*.bak
+
+# Cloudflare local
+.wrangler/
+.dev.vars
+.dev.vars.*
+
+# Dependências (caso adicionemos tooling depois)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build output (caso migremos pra Tailwind CLI compilado)
+dist/
+build/
+.cache/
+
+# Variáveis sensíveis
+.env
+.env.local
+.env.*.local

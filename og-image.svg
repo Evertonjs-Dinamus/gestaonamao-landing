@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0F0F10"/>
+  <rect x="0" y="0" width="1200" height="8" fill="#F5B544"/>
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Arial, sans-serif" text-anchor="middle">
+    <text x="600" y="270" font-size="84" font-weight="800" fill="#FFFFFF" letter-spacing="-2">
+      Gestão na <tspan fill="#F5B544">Mão</tspan>
+    </text>
+    <text x="600" y="370" font-size="40" font-weight="500" fill="#EAEAE6">
+      Saiba se está no lucro ou prejuízo.
+    </text>
+    <text x="600" y="540" font-size="24" font-weight="600" fill="#6B6B70" letter-spacing="2">
+      GESTAONAMAO.APP.BR
+    </text>
+  </g>
+</svg>
