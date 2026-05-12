@@ -79,7 +79,7 @@
         <a href="#faq" class="hover:text-ink-900">FAQ</a>
       </nav>
 
-      <a href="https://gestaonamao.app.br/cadastro" class="hidden md:inline-flex items-center justify-center bg-brand-gold hover:bg-brand-gold-dark text-ink-900 font-semibold text-sm px-5 py-2.5 rounded-lg transition">
+      <a href="https://app.gestaonamao.app.br/cadastro" class="hidden md:inline-flex items-center justify-center bg-brand-gold hover:bg-brand-gold-dark text-ink-900 font-semibold text-sm px-5 py-2.5 rounded-lg transition">
         Começar grátis
       </a>
 
@@ -94,7 +94,7 @@
         <a href="#solucao" @click="open = false" class="text-ink-700">Solução</a>
         <a href="#preco" @click="open = false" class="text-ink-700">Preço</a>
         <a href="#faq" @click="open = false" class="text-ink-700">FAQ</a>
-        <a href="https://gestaonamao.app.br/cadastro" @click="open = false" class="bg-brand-gold hover:bg-brand-gold-dark text-ink-900 font-semibold text-center px-5 py-3 rounded-lg">
+        <a href="https://app.gestaonamao.app.br/cadastro" @click="open = false" class="bg-brand-gold hover:bg-brand-gold-dark text-ink-900 font-semibold text-center px-5 py-3 rounded-lg">
           Começar grátis
         </a>
       </nav>
@@ -107,10 +107,10 @@
       <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div>
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-ink-900 leading-[1.05] tracking-tight">
-            Trabalhar muito não é o mesmo que <span class="text-brand-gold">lucrar</span>.
+            Rodar muito não é o mesmo que <span class="text-brand-gold">lucrar muito</span>.
           </h1>
           <p class="mt-6 text-lg sm:text-xl text-ink-700 leading-relaxed max-w-xl">
-            Saiba exatamente quanto sobra no seu bolso em cada frete. Sem planilhas chatas, sem surpresas no fim do mês e direto no seu celular.
+            Descubra quanto realmente sobra do seu trabalho — sem planilha, direto no celular.
           </p>
           <div class="mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/30">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-brand-gold-dark">
@@ -121,7 +121,7 @@
             </span>
           </div>
           <div class="mt-8">
-            <a href="https://gestaonamao.app.br/cadastro" class="inline-flex items-center justify-center bg-brand-gold hover:bg-brand-gold-dark text-ink-900 font-bold text-base sm:text-lg px-8 py-4 rounded-xl shadow-lg shadow-brand-gold/30 transition">
+            <a href="https://app.gestaonamao.app.br/cadastro" class="inline-flex items-center justify-center bg-brand-gold hover:bg-brand-gold-dark text-ink-900 font-bold text-base sm:text-lg px-8 py-4 rounded-xl shadow-lg shadow-brand-gold/30 transition">
               Começar grátis
               <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
@@ -135,14 +135,27 @@
         <!-- Mosaico de 2 telas do Dashboard -->
         <div class="relative mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
 
-          <!-- Celular 1: Topo do Dashboard -->
-          <div class="rounded-[2.5rem] border-[10px] border-ink-900 bg-ink-900 shadow-2xl overflow-hidden" style="max-width: 280px;">
-            <img
-              src="assets/screenshot-dashboard-top.png"
-              alt="Dashboard mostrando lucro líquido R$ 9.886,20 com badge Saudável, KPIs e gráfico de distribuição de custos"
-              class="block w-full h-auto"
-              loading="eager"
-            />
+          <!-- Celular 1: Topo do Dashboard (com selos flutuantes) -->
+          <div class="relative" style="max-width: 280px;">
+            <div class="rounded-[2.5rem] border-[10px] border-ink-900 bg-ink-900 shadow-2xl overflow-hidden">
+              <img
+                src="assets/screenshot-dashboard-top.png"
+                alt="Dashboard mostrando lucro líquido R$ 9.886,20 com badge Saudável, KPIs e gráfico de distribuição de custos"
+                class="block w-full h-auto"
+                loading="eager"
+              />
+            </div>
+            <!-- Selo: lucro -->
+            <div class="absolute -top-2 -right-2 bg-green-700 text-green-50 text-xs font-medium px-3 py-1.5 rounded-full shadow-md">
+              + R$ 1.247 de lucro
+            </div>
+            <!-- Selo: fretes -->
+            <div class="absolute -bottom-2 -left-2 bg-white border border-border-soft text-ink-700 text-xs font-medium px-3 py-1.5 rounded-md shadow-md flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-brand-gold-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m-12 6h12m0 0l-4 4m4-4l-4-4"></path>
+              </svg>
+              14 fretes este mês
+            </div>
           </div>
 
           <!-- Celular 2: Análise inteligente -->
@@ -424,7 +437,7 @@
           <p class="mt-4 text-xs text-ink-500 italic">
             Após os 7 dias, você continua no plano Grátis com funcionalidades básicas. Sem cobrança automática.
           </p>
-          <a href="https://gestaonamao.app.br/cadastro" class="mt-8 inline-flex items-center justify-center bg-bg-soft hover:bg-border-soft text-ink-900 font-semibold px-5 py-3 rounded-lg border border-border-soft transition">
+          <a href="https://app.gestaonamao.app.br/cadastro" class="mt-8 inline-flex items-center justify-center bg-bg-soft hover:bg-border-soft text-ink-900 font-semibold px-5 py-3 rounded-lg border border-border-soft transition">
             Começar grátis
           </a>
         </div>
@@ -658,7 +671,7 @@
         Em menos de 1 minuto você cria sua conta e começa a ver onde seu dinheiro está indo.
       </p>
       <div class="mt-8">
-        <a href="https://gestaonamao.app.br/cadastro" class="inline-flex items-center justify-center bg-ink-900 hover:bg-black text-white font-bold text-lg px-8 py-4 rounded-xl shadow-lg transition">
+        <a href="https://app.gestaonamao.app.br/cadastro" class="inline-flex items-center justify-center bg-ink-900 hover:bg-black text-white font-bold text-lg px-8 py-4 rounded-xl shadow-lg transition">
           Começar grátis
           <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
