@@ -128,7 +128,7 @@
               <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
             <p class="mt-3 text-sm">
-              <span class="font-semibold text-ink-900">Não pede cartão de crédito.</span>
+              <span class="font-semibold text-ink-900">Comece sem cartão.</span>
               <span class="text-ink-700"> Sem fidelidade. Cancela quando quiser.</span>
             </p>
           </div>
@@ -174,6 +174,95 @@
       </div>
     </div>
   </section>
+
+  <!-- METÁFORA: Painel do caminhão -->
+  <section class="bg-white py-16 md:py-24 border-t border-gray-100">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <!-- Bloco visual: 2 painéis lado a lado -->
+      <div class="flex items-center justify-center gap-4 md:gap-12 mb-12">
+
+        <!-- Painel APAGADO (esquerda) -->
+        <div class="flex flex-col items-center">
+          <svg viewBox="0 0 200 200" class="w-32 h-32 md:w-48 md:h-48" xmlns="http://www.w3.org/2000/svg">
+            <!-- Anel externo -->
+            <circle cx="100" cy="100" r="92" fill="none" stroke="#e5e7eb" stroke-width="3"/>
+            <!-- Fundo do mostrador -->
+            <circle cx="100" cy="100" r="80" fill="#1f2937"/>
+            <!-- Marcações do dial (apagadas) -->
+            <g stroke="#4b5563" stroke-width="2" stroke-linecap="round">
+              <line x1="100" y1="30" x2="100" y2="38"/>
+              <line x1="158" y1="60" x2="153" y2="65"/>
+              <line x1="170" y1="100" x2="162" y2="100"/>
+              <line x1="158" y1="140" x2="153" y2="135"/>
+              <line x1="42" y1="140" x2="47" y2="135"/>
+              <line x1="30" y1="100" x2="38" y2="100"/>
+              <line x1="42" y1="60" x2="47" y2="65"/>
+            </g>
+            <!-- Ponteiro apagado (em zero) -->
+            <line x1="100" y1="100" x2="50" y2="135" stroke="#6b7280" stroke-width="3" stroke-linecap="round"/>
+            <!-- Centro -->
+            <circle cx="100" cy="100" r="6" fill="#374151"/>
+            <!-- Texto "OFF" -->
+            <text x="100" y="160" text-anchor="middle" fill="#6b7280" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600">DESLIGADO</text>
+          </svg>
+          <p class="text-sm text-gray-500 mt-3 font-medium">Sem visão</p>
+        </div>
+
+        <!-- Seta de transformação -->
+        <div class="flex items-center">
+          <svg class="w-8 h-8 md:w-12 md:h-12 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+          </svg>
+        </div>
+
+        <!-- Painel LIGADO (direita) -->
+        <div class="flex flex-col items-center">
+          <svg viewBox="0 0 200 200" class="w-32 h-32 md:w-48 md:h-48" xmlns="http://www.w3.org/2000/svg">
+            <!-- Glow externo (efeito "aceso") -->
+            <circle cx="100" cy="100" r="95" fill="#fbbf24" opacity="0.15"/>
+            <!-- Anel externo -->
+            <circle cx="100" cy="100" r="92" fill="none" stroke="#fbbf24" stroke-width="3"/>
+            <!-- Fundo do mostrador -->
+            <circle cx="100" cy="100" r="80" fill="#1f2937"/>
+            <!-- Arco colorido (zona "boa") -->
+            <path d="M 35 130 A 70 70 0 0 1 165 130" fill="none" stroke="#fbbf24" stroke-width="6" stroke-linecap="round"/>
+            <!-- Marcações do dial (acesas) -->
+            <g stroke="#fbbf24" stroke-width="2" stroke-linecap="round">
+              <line x1="100" y1="30" x2="100" y2="38"/>
+              <line x1="158" y1="60" x2="153" y2="65"/>
+              <line x1="170" y1="100" x2="162" y2="100"/>
+              <line x1="158" y1="140" x2="153" y2="135"/>
+              <line x1="42" y1="140" x2="47" y2="135"/>
+              <line x1="30" y1="100" x2="38" y2="100"/>
+              <line x1="42" y1="60" x2="47" y2="65"/>
+            </g>
+            <!-- Ponteiro ativo (apontando pra "lucro") -->
+            <line x1="100" y1="100" x2="150" y2="65" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/>
+            <!-- Centro brilhante -->
+            <circle cx="100" cy="100" r="7" fill="#fbbf24"/>
+            <circle cx="100" cy="100" r="3" fill="#fff"/>
+            <!-- Texto "ON" -->
+            <text x="100" y="160" text-anchor="middle" fill="#fbbf24" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700">LIGADO</text>
+          </svg>
+          <p class="text-sm text-amber-600 mt-3 font-semibold">Decisão fácil</p>
+        </div>
+
+      </div>
+
+      <!-- Texto da metáfora -->
+      <div class="max-w-2xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-5 leading-tight">
+          Imagine dirigir sem o painel ligado.
+        </h2>
+        <p class="text-lg text-gray-600 leading-relaxed">
+          Difícil, né? Você não saberia a velocidade, o combustível, a temperatura. No final do mês, é mais ou menos isso que acontece sem registro do que entra e sai. O <span class="font-semibold text-gray-900">Gestão na Mão</span> liga seu painel financeiro — em <span class="font-semibold text-amber-600">1 minuto por dia</span>.
+        </p>
+      </div>
+
+    </div>
+  </section>
+  <!-- /METÁFORA -->
 
   <!-- ============== PROBLEMA ============== -->
   <section class="bg-bg-soft border-y border-border-soft">
@@ -261,8 +350,8 @@
           <div class="w-12 h-12 rounded-xl bg-brand-gold/20 flex items-center justify-center text-brand-gold-dark">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
           </div>
-          <h3 class="mt-5 text-xl font-bold text-ink-900">Cobrança via PIX</h3>
-          <p class="mt-2 text-ink-700 leading-relaxed">Plano mensal no cartão, plano anual via PIX direto no Mercado Pago. Sem mensalidade vitalícia, sem fidelidade. Cancela quando quiser.</p>
+          <h3 class="mt-5 text-xl font-bold text-ink-900">Cobrança transparente</h3>
+          <p class="mt-2 text-ink-700 leading-relaxed">Mensal via cartão recorrente (R$ 29,90) ou anual via PIX com 17% de desconto (R$ 299). Sem fidelidade, cancela quando quiser.</p>
         </div>
 
         <div class="bg-bg-soft border border-border-soft rounded-2xl p-7">
@@ -409,7 +498,7 @@
         <!-- Plano Grátis -->
         <div class="bg-bg-card border border-border-soft rounded-2xl p-8 flex flex-col">
           <h3 class="text-xl font-bold text-ink-900">Grátis</h3>
-          <p class="mt-2 text-ink-500 text-sm">Pra experimentar e começar a ver onde seu dinheiro está indo.</p>
+          <p class="mt-2 text-ink-500 text-sm">Experimente 7 dias com tudo liberado. Sem cartão, sem compromisso.</p>
           <div class="mt-6">
             <span class="text-4xl font-extrabold text-ink-900">R$ 0</span>
             <span class="text-ink-500">/mês</span>
@@ -436,9 +525,6 @@
               <span>Suporte via WhatsApp</span>
             </li>
           </ul>
-          <p class="mt-4 text-xs text-ink-500 italic">
-            Após os 7 dias, você continua no plano Grátis com funcionalidades básicas. Sem cobrança automática.
-          </p>
           <a href="https://app.gestaonamao.app.br/login" class="mt-8 inline-flex items-center justify-center bg-bg-soft hover:bg-border-soft text-ink-900 font-semibold px-5 py-3 rounded-lg border border-border-soft transition">
             Começar grátis
           </a>
@@ -473,7 +559,7 @@
                     <span class="text-2xl font-bold text-brand-gold">R$ 24,90</span>
                     <span class="text-sm text-white/70">/mês equiv.</span>
                   </div>
-                  <p class="text-xs text-white/70 mt-1">R$ 299/ano pagos via PIX recorrente</p>
+                  <p class="text-xs text-white/70 mt-1">R$ 299/ano via PIX. Renova quando quiser.</p>
                 </div>
                 <div class="text-right">
                   <span class="inline-block text-[10px] font-bold px-2 py-1 rounded-full bg-brand-gold text-ink-900 uppercase tracking-wider">
@@ -505,7 +591,7 @@
             </li>
             <li class="flex items-start gap-3">
               <svg class="text-brand-gold mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Pagamento via PIX, sem cartão</span>
+              <span>Mensal no cartão recorrente ou anual via PIX (-17%)</span>
             </li>
             <li class="flex items-start gap-3">
               <svg class="text-brand-gold mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -622,11 +708,11 @@
 
         <div class="bg-bg-soft rounded-2xl border border-border-soft overflow-hidden" x-data="{ open: false }">
           <button @click="open = !open" class="w-full flex items-center justify-between p-5 text-left">
-            <span class="font-semibold text-ink-900">Como funciona a cobrança via PIX?</span>
+            <span class="font-semibold text-ink-900">Como funciona o pagamento? Tem PIX e cartão?</span>
             <span class="text-2xl text-ink-700 transition-transform" :class="{ 'rotate-45': open }">+</span>
           </button>
           <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="px-5 pb-5 text-ink-700 leading-relaxed" style="display: none;">
-            No plano MENSAL (R$ 29,90), o pagamento é via cartão de crédito — o Mercado Pago não oferece PIX recorrente mensal. No plano ANUAL (R$ 299/ano), você paga via PIX recorrente direto no Mercado Pago. A cada ano, o pagamento renova automaticamente. Você economiza R$ 60 escolhendo o anual.
+            No plano MENSAL (R$ 29,90), você paga via cartão de crédito com cobrança automática mensal — esse é o caminho mais prático pra não precisar lembrar de renovar. No plano ANUAL (R$ 299/ano), você paga via PIX uma vez direto no Mercado Pago e usa o ano todo. No fim do ano, você renova quando quiser, sem cobrança automática. Você economiza R$ 60 escolhendo o anual.
           </div>
         </div>
 
@@ -636,7 +722,7 @@
             <span class="text-2xl text-ink-700 transition-transform" :class="{ 'rotate-45': open }">+</span>
           </button>
           <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="px-5 pb-5 text-ink-700 leading-relaxed" style="display: none;">
-            Pode. Sem multa, sem fidelidade, sem ligação pra central. No app, vai em Perfil → Assinatura → Cancelar. Você continua usando até o fim do período que pagou, depois volta pro plano Grátis. Sem pegadinha.
+            Pode. Sem multa, sem fidelidade, sem ligação pra central. No app, vai em Perfil → Assinatura → Cancelar. Você continua usando normalmente até o fim do período que pagou. Depois disso (ou se o trial de 7 dias acabar sem você assinar), o app fica em modo consulta — você acessa todo seu histórico, mas pra cadastrar lançamentos novos precisa voltar a ser Premium. Seus dados ficam guardados sempre.
           </div>
         </div>
 
