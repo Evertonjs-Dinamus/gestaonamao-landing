@@ -9,7 +9,6 @@
 </head>
 <body class="bg-slate-50 min-h-screen">
 
-  <!-- Header -->
   <header class="bg-slate-900 text-white sticky top-0 z-10 shadow-lg">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between flex-wrap gap-2">
       <div class="flex items-center gap-3">
@@ -30,24 +29,19 @@
 
   <main class="max-w-7xl mx-auto px-4 py-6">
 
-    <!-- Loading inicial -->
     <div id="loading" class="text-center py-20 text-slate-500">
       Carregando dados...
     </div>
 
-    <!-- Conteúdo -->
     <div id="content" class="hidden space-y-6">
 
-      <!-- Banner de alertas (aparece se houver vencimentos críticos) -->
       <section id="banner-alertas" class="hidden"></section>
 
-      <!-- Cards de métricas -->
       <section>
         <h2 class="text-lg font-bold text-slate-700 mb-3">Visão geral</h2>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3" id="cards-metricas"></div>
       </section>
 
-      <!-- Tabela de usuários -->
       <section>
         <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
           <h2 class="text-lg font-bold text-slate-700">Usuários</h2>
@@ -80,6 +74,7 @@
                 <th class="px-3 py-2 text-right">Lançam.</th>
                 <th class="px-3 py-2 text-right">Sem uso</th>
                 <th class="px-3 py-2 text-left">Cadastro</th>
+                <th class="px-3 py-2 text-center">Ações</th>
               </tr>
             </thead>
             <tbody id="tabela-usuarios" class="divide-y divide-slate-100"></tbody>
@@ -88,7 +83,6 @@
         <p class="text-xs text-slate-500 mt-2" id="contagem-usuarios"></p>
       </section>
 
-      <!-- Tabela de uso do banco -->
       <section>
         <h2 class="text-lg font-bold text-slate-700 mb-3">Uso do banco por empresa</h2>
         <div class="bg-white rounded-lg shadow overflow-x-auto">
@@ -111,6 +105,24 @@
         <p class="text-xs text-slate-500 mt-2">
           Estimativa baseada em ~0.5 KB por linha. Tamanho total real do banco está no card "Banco" acima.
         </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-bold text-slate-700 mb-3">Histórico de ações administrativas</h2>
+        <div class="bg-white rounded-lg shadow overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-slate-100 text-slate-700">
+              <tr>
+                <th class="px-3 py-2 text-left">Quando</th>
+                <th class="px-3 py-2 text-left">Admin</th>
+                <th class="px-3 py-2 text-left">Usuário alvo</th>
+                <th class="px-3 py-2 text-left">Ação</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-audit" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+        <p class="text-xs text-slate-500 mt-2">Últimas 20 ações registradas. Toda ação administrativa é auditada.</p>
       </section>
 
       <p class="text-center text-xs text-slate-400 pt-4">
