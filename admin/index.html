@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Painel Admin · Gestão na Mão</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-slate-900 text-white sticky top-0 z-10 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between flex-wrap gap-2">
+      <div class="flex items-center gap-3">
+        <span class="bg-orange-500 text-white text-xs px-2 py-1 rounded font-bold">ADMIN</span>
+        <h1 class="font-bold">Gestão na Mão</h1>
+      </div>
+      <div class="flex items-center gap-2 text-sm">
+        <span id="user-email" class="text-slate-400 mr-2"></span>
+        <button id="btn-refresh" class="bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded text-xs">
+          🔄 Atualizar
+        </button>
+        <button id="btn-logout" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-xs">
+          Sair
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-6">
+
+    <!-- Loading inicial -->
+    <div id="loading" class="text-center py-20 text-slate-500">
+      Carregando dados...
+    </div>
+
+    <!-- Conteúdo -->
+    <div id="content" class="hidden space-y-6">
+
+      <!-- Banner de alertas (aparece se houver vencimentos críticos) -->
+      <section id="banner-alertas" class="hidden"></section>
+
+      <!-- Cards de métricas -->
+      <section>
+        <h2 class="text-lg font-bold text-slate-700 mb-3">Visão geral</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3" id="cards-metricas"></div>
+      </section>
+
+      <!-- Tabela de usuários -->
+      <section>
+        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <h2 class="text-lg font-bold text-slate-700">Usuários</h2>
+          <div class="flex gap-2 items-center">
+            <select id="filtro-status" class="px-2 py-1.5 border border-slate-300 rounded text-sm">
+              <option value="">Todos os status</option>
+              <option value="active">Apenas ativos</option>
+              <option value="trial">Apenas trial</option>
+              <option value="expirado">Apenas expirados</option>
+            </select>
+            <input
+              type="text"
+              id="filtro-busca"
+              placeholder="🔍 Email ou empresa..."
+              class="px-3 py-1.5 border border-slate-300 rounded text-sm w-56"
+            >
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-slate-100 text-slate-700">
+              <tr>
+                <th class="px-3 py-2 text-left">Email</th>
+                <th class="px-3 py-2 text-left">Empresa</th>
+                <th class="px-3 py-2 text-left">Status</th>
+                <th class="px-3 py-2 text-left">Plano</th>
+                <th class="px-3 py-2 text-left">Cobrança</th>
+                <th class="px-3 py-2 text-left">Expira em</th>
+                <th class="px-3 py-2 text-right">Dias</th>
+                <th class="px-3 py-2 text-right">Lançam.</th>
+                <th class="px-3 py-2 text-right">Sem uso</th>
+                <th class="px-3 py-2 text-left">Cadastro</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-usuarios" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+        <p class="text-xs text-slate-500 mt-2" id="contagem-usuarios"></p>
+      </section>
+
+      <!-- Tabela de uso do banco -->
+      <section>
+        <h2 class="text-lg font-bold text-slate-700 mb-3">Uso do banco por empresa</h2>
+        <div class="bg-white rounded-lg shadow overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-slate-100 text-slate-700">
+              <tr>
+                <th class="px-3 py-2 text-left">Empresa</th>
+                <th class="px-3 py-2 text-left">Email</th>
+                <th class="px-3 py-2 text-right">Receitas</th>
+                <th class="px-3 py-2 text-right">Despesas</th>
+                <th class="px-3 py-2 text-right">Manut.</th>
+                <th class="px-3 py-2 text-right">Hodôm.</th>
+                <th class="px-3 py-2 text-right">Total</th>
+                <th class="px-3 py-2 text-right">~KB</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-banco" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+        <p class="text-xs text-slate-500 mt-2">
+          Estimativa baseada em ~0.5 KB por linha. Tamanho total real do banco está no card "Banco" acima.
+        </p>
+      </section>
+
+      <p class="text-center text-xs text-slate-400 pt-4">
+        Última atualização: <span id="ultima-atualizacao">-</span>
+      </p>
+    </div>
+  </main>
+
+  <script type="module" src="./assets/app.js"></script>
+</body>
+</html>
