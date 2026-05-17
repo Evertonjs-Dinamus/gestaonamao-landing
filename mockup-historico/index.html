@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f172a">
+  <title>Mockup Histórico · Gestão na Mão</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      background: #f1f5f9;
+    }
+    .app-shell {
+      max-width: 420px;
+      margin: 0 auto;
+      background: #f8fafc;
+      min-height: 100vh;
+      position: relative;
+      box-shadow: 0 0 40px rgba(0,0,0,0.08);
+    }
+    @media (min-width: 421px) {
+      .app-shell { border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; }
+    }
+    .btn-press { transition: all .15s; }
+    .btn-press:active { transform: scale(0.95); }
+    @keyframes pulse-banner {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+    .mockup-banner { animation: pulse-banner 3s infinite; }
+    
+    /* Calendário */
+    .cal-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .cal-day:hover:not(.cal-empty):not(.cal-today) { background: #f1f5f9; }
+    .cal-day.cal-today {
+      background: #d4a017;
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(212, 160, 23, 0.4);
+    }
+    .cal-day.cal-selected:not(.cal-today) {
+      background: #1e293b;
+      color: white;
+      font-weight: 700;
+    }
+    .cal-receita { color: #16a34a; font-weight: 600; }
+    .cal-despesa { color: #dc2626; font-weight: 600; }
+    .cal-misto { color: #d4a017; font-weight: 700; }
+    .cal-vazio { color: #cbd5e1; }
+    .cal-empty { visibility: hidden; }
+    
+    /* Custom checkbox */
+    .check-validacao {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #cbd5e1;
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      background: white;
+      transition: all .15s;
+    }
+    .check-validacao.checked {
+      background: #16a34a;
+      border-color: #16a34a;
+      color: white;
+    }
+    .check-validacao.checked::after {
+      content: "✓";
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .check-validacao:hover { border-color: #94a3b8; }
+    
+    /* Tipo indicator (bolinha) */
+    .tipo-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body class="bg-slate-100">
+
+<div class="app-shell pb-24">
+
+  <!-- BANNER DE MOCKUP -->
+  <div class="mockup-banner bg-amber-500 text-white text-xs text-center py-2 px-3 font-medium sticky top-0 z-30 shadow-md">
+    ⚠️ MOCKUP DE VALIDAÇÃO · nada aqui está funcionando · só pra você opinar
+  </div>
+
+  <!-- HEADER DO HISTÓRICO -->
+  <header class="bg-white border-b border-slate-200 px-4 py-3 flex items-center gap-3 sticky top-[28px] z-20">
+    <button class="w-9 h-9 rounded-lg bg-slate-100 hover:bg-slate-200 btn-press flex items-center justify-center text-lg" onclick="alert('No app real: voltaria pra tela Ganhos/Despesas')">
+      ‹
+    </button>
+    <div class="flex-1">
+      <div class="text-xs text-slate-500 uppercase tracking-wide">Voltar</div>
+      <h1 class="font-bold text-slate-900 text-base leading-tight">📋 Histórico</h1>
+    </div>
+    <button class="w-9 h-9 rounded-lg bg-slate-100 hover:bg-slate-200 btn-press flex items-center justify-center" onclick="alert('No app real: abriria filtros avançados (forma de pagamento, categoria, valor mínimo, etc)')">
+      <span class="text-base">⚙️</span>
+    </button>
+  </header>
+
+  <!-- TEXTO-GUIA NO TOPO -->
+  <div class="px-4 pt-4">
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-900 flex gap-2">
+      <div class="text-base">💡</div>
+      <div>
+        Veja todos os lançamentos do período. Toque num dia do calendário pra filtrar. 
+        Use o <strong>✓</strong> pra marcar que já conferiu o lançamento (isso é só pra você se organizar).
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTROS DE PERÍODO -->
+  <div class="px-4 pt-4">
+    <div class="text-xs text-slate-500 uppercase tracking-wide mb-2">Período</div>
+    <div class="flex gap-2 overflow-x-auto pb-1">
+      <button class="px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-medium btn-press flex-shrink-0" onclick="alert('Filtrar por hoje')">Hoje</button>
+      <button class="px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-medium btn-press flex-shrink-0" onclick="alert('Filtrar 7 dias')">7 dias</button>
+      <button class="px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-medium btn-press flex-shrink-0" onclick="alert('Filtrar 30 dias')">30 dias</button>
+      <button class="px-3 py-1.5 rounded-full bg-slate-900 text-white text-xs font-semibold btn-press flex-shrink-0">Mai 2026 ▼</button>
+      <button class="px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 text-xs font-medium btn-press flex-shrink-0" onclick="alert('Selecionar período personalizado')">Personalizado</button>
+    </div>
+  </div>
+
+  <!-- FILTROS POR TIPO -->
+  <div class="px-4 pt-3">
+    <div class="text-xs text-slate-500 uppercase tracking-wide mb-2">Tipo</div>
+    <div class="grid grid-cols-3 gap-2">
+      <button class="py-2 rounded-lg bg-slate-900 text-white text-xs font-semibold btn-press">
+        Todos
+      </button>
+      <button class="py-2 rounded-lg bg-white border border-slate-200 text-slate-600 text-xs font-medium btn-press hover:border-green-400" onclick="alert('Filtrar só ganhos')">
+        💰 Ganhos
+      </button>
+      <button class="py-2 rounded-lg bg-white border border-slate-200 text-slate-600 text-xs font-medium btn-press hover:border-red-400" onclick="alert('Filtrar só despesas')">
+        💸 Despesas
+      </button>
+    </div>
+  </div>
+
+  <!-- CALENDÁRIO -->
+  <div class="px-4 pt-4">
+    <div class="bg-white border border-slate-200 rounded-xl p-4">
+      <div class="flex items-center justify-between mb-3">
+        <button class="w-8 h-8 rounded-lg bg-slate-100 btn-press flex items-center justify-center">‹</button>
+        <div class="font-semibold text-slate-900">Maio 2026</div>
+        <button class="w-8 h-8 rounded-lg bg-slate-100 btn-press flex items-center justify-center">›</button>
+      </div>
+
+      <!-- Cabeçalho dos dias -->
+      <div class="grid grid-cols-7 gap-1 mb-1 text-center">
+        <div class="text-[10px] font-medium text-slate-400 uppercase">D</div>
+        <div class="text-[10px] font-medium text-slate-400 uppercase">S</div>
+        <div class="text-[10px] font-medium text-slate-400 uppercase">T</div>
+        <div class="text-[10px] font-medium text-slate-400 uppercase">Q</div>
+        <div class="text-[10px] font-medium text-slate-400 uppercase">Q</div>
+        <div class="text-[10px] font-medium text-slate-400 uppercase">S</div>
+        <div class="text-[10px] font-medium text-slate-400 uppercase">S</div>
+      </div>
+
+      <!-- Grid de dias -->
+      <div class="grid grid-cols-7 gap-1">
+        <!-- Maio 2026 começa numa sexta-feira -->
+        <div class="cal-day cal-empty"></div>
+        <div class="cal-day cal-empty"></div>
+        <div class="cal-day cal-empty"></div>
+        <div class="cal-day cal-empty"></div>
+        <div class="cal-day cal-empty"></div>
+        <div class="cal-day cal-receita" onclick="alert('Dia 1/5: filtrar lançamentos')">1</div>
+        <div class="cal-day cal-receita" onclick="alert('Dia 2/5: filtrar lançamentos')">2</div>
+        
+        <div class="cal-day cal-misto" onclick="alert('Dia 3/5: 2 receitas + 1 despesa')">3</div>
+        <div class="cal-day cal-receita" onclick="alert('Dia 4/5')">4</div>
+        <div class="cal-day cal-misto" onclick="alert('Dia 5/5')">5</div>
+        <div class="cal-day cal-vazio" onclick="alert('Dia 6/5: nenhum lançamento')">6</div>
+        <div class="cal-day cal-misto" onclick="alert('Dia 7/5')">7</div>
+        <div class="cal-day cal-receita" onclick="alert('Dia 8/5')">8</div>
+        <div class="cal-day cal-misto" onclick="alert('Dia 9/5')">9</div>
+        
+        <div class="cal-day cal-receita" onclick="alert('Dia 10/5')">10</div>
+        <div class="cal-day cal-vazio" onclick="alert('Dia 11/5: vazio')">11</div>
+        <div class="cal-day cal-despesa" onclick="alert('Dia 12/5: só despesa')">12</div>
+        <div class="cal-day cal-receita" onclick="alert('Dia 13/5')">13</div>
+        <div class="cal-day cal-misto" onclick="alert('Dia 14/5')">14</div>
+        <div class="cal-day cal-misto" onclick="alert('Dia 15/5')">15</div>
+        <div class="cal-day cal-vazio" onclick="alert('Dia 16/5: vazio')">16</div>
+        
+        <div class="cal-day cal-today" onclick="alert('Hoje! 17/05')">17</div>
+        <div class="cal-day cal-vazio" onclick="alert('Dia 18: futuro')">18</div>
+        <div class="cal-day cal-vazio" onclick="alert('Dia 19: futuro')">19</div>
+        <div class="cal-day cal-vazio" onclick="alert('Dia 20: futuro')">20</div>
+        <div class="cal-day cal-vazio" onclick="alert('Dia 21: futuro')">21</div>
+        <div class="cal-day cal-vazio" onclick="alert('Dia 22: futuro')">22</div>
+        <div class="cal-day cal-vazio" onclick="alert('Dia 23: futuro')">23</div>
+        
+        <div class="cal-day cal-vazio" onclick="alert('futuro')">24</div>
+        <div class="cal-day cal-vazio" onclick="alert('futuro')">25</div>
+        <div class="cal-day cal-vazio" onclick="alert('futuro')">26</div>
+        <div class="cal-day cal-vazio" onclick="alert('futuro')">27</div>
+        <div class="cal-day cal-vazio" onclick="alert('futuro')">28</div>
+        <div class="cal-day cal-vazio" onclick="alert('futuro')">29</div>
+        <div class="cal-day cal-vazio" onclick="alert('futuro')">30</div>
+        
+        <div class="cal-day cal-vazio" onclick="alert('futuro')">31</div>
+      </div>
+
+      <!-- Legenda -->
+      <div class="flex items-center justify-center gap-3 mt-3 pt-3 border-t border-slate-100 text-[10px] text-slate-500">
+        <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-600"></span>receita</div>
+        <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-600"></span>despesa</div>
+        <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500"></span>ambos</div>
+        <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-slate-300"></span>vazio</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTAGEM E RESUMO -->
+  <div class="px-4 pt-4">
+    <div class="bg-slate-900 text-white rounded-xl p-3 flex items-center gap-3">
+      <div class="flex-1">
+        <div class="text-[10px] uppercase tracking-wide text-slate-400">No período filtrado</div>
+        <div class="text-sm font-bold">28 lançamentos · 14 dias com movimento</div>
+      </div>
+      <div class="text-right">
+        <div class="text-[10px] text-slate-400">2 dias sem lançamento</div>
+        <div class="text-xs text-amber-400 font-semibold">⚠️ Conferir</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LISTA DE LANÇAMENTOS -->
+  <div class="px-4 pt-4 space-y-4">
+
+    <!-- HOJE -->
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-2">
+          <div class="text-xs font-bold text-slate-900 uppercase">Hoje, 17/05</div>
+          <div class="text-[10px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-semibold">DOM</div>
+        </div>
+        <div class="text-xs text-slate-500">2 lançamentos</div>
+      </div>
+
+      <div class="bg-white border border-slate-200 rounded-xl overflow-hidden">
+        <!-- Item 1 -->
+        <div class="p-3 flex items-start gap-3 hover:bg-slate-50">
+          <div class="check-validacao mt-1" onclick="this.classList.toggle('checked')"></div>
+          <div class="tipo-indicator bg-green-600 mt-2.5"></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <div class="text-sm font-bold text-green-700">+ R$ 1.400,00</div>
+              <button class="text-slate-400 hover:text-slate-700 btn-press text-sm" onclick="alert('Abrir edição deste lançamento')">✎</button>
+            </div>
+            <div class="text-sm text-slate-900 truncate">Frete Patos-SP</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">
+              14:23 · 👤 Motorista (Welton)
+            </div>
+          </div>
+        </div>
+        <!-- Divisor -->
+        <div class="border-t border-slate-100 mx-3"></div>
+        <!-- Item 2 -->
+        <div class="p-3 flex items-start gap-3 hover:bg-slate-50">
+          <div class="check-validacao mt-1" onclick="this.classList.toggle('checked')"></div>
+          <div class="tipo-indicator bg-red-600 mt-2.5"></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <div class="text-sm font-bold text-red-700">- R$ 350,00</div>
+              <button class="text-slate-400 hover:text-slate-700 btn-press text-sm" onclick="alert('Abrir edição deste lançamento')">✎</button>
+            </div>
+            <div class="text-sm text-slate-900 truncate">Combustível</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">
+              09:15 · 👤 Motorista (Welton) · Posto Shell BR-365
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ONTEM (SEM LANÇAMENTOS) -->
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-2">
+          <div class="text-xs font-bold text-slate-900 uppercase">Ontem, 16/05</div>
+          <div class="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-semibold">SAB</div>
+        </div>
+      </div>
+
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-center">
+        <div class="text-2xl mb-1">⚠️</div>
+        <div class="text-sm font-semibold text-amber-900">Nenhum lançamento</div>
+        <div class="text-[11px] text-amber-700 mt-1">Confira com o motorista se rodou esse dia</div>
+        <button class="mt-2 text-xs bg-white border border-amber-300 text-amber-800 px-3 py-1 rounded-lg font-medium btn-press" onclick="alert('Adicionar lançamento retroativo do dia 16/05')">
+          + Adicionar
+        </button>
+      </div>
+    </div>
+
+    <!-- DIA 15/05 -->
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-2">
+          <div class="text-xs font-bold text-slate-900 uppercase">15/05</div>
+          <div class="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-semibold">SEX</div>
+        </div>
+        <div class="text-xs text-slate-500">3 lançamentos</div>
+      </div>
+
+      <div class="bg-white border border-slate-200 rounded-xl overflow-hidden">
+        <div class="p-3 flex items-start gap-3 hover:bg-slate-50">
+          <div class="check-validacao checked mt-1" onclick="this.classList.toggle('checked')"></div>
+          <div class="tipo-indicator bg-green-600 mt-2.5"></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <div class="text-sm font-bold text-green-700">+ R$ 1.350,00</div>
+              <button class="text-slate-400 hover:text-slate-700 btn-press text-sm" onclick="alert('Editar lançamento')">✎</button>
+            </div>
+            <div class="text-sm text-slate-900 truncate">Frete Patos-SP</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">
+              16:40 · 👤 Você
+              <span class="ml-1 text-green-600 font-semibold">· conferido</span>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-slate-100 mx-3"></div>
+        <div class="p-3 flex items-start gap-3 hover:bg-slate-50">
+          <div class="check-validacao checked mt-1" onclick="this.classList.toggle('checked')"></div>
+          <div class="tipo-indicator bg-red-600 mt-2.5"></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <div class="text-sm font-bold text-red-700">- R$ 605,00</div>
+              <button class="text-slate-400 hover:text-slate-700 btn-press text-sm" onclick="alert('Editar lançamento')">✎</button>
+            </div>
+            <div class="text-sm text-slate-900 truncate">Combustível</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">
+              11:30 · 👤 Motorista (Welton) · Posto Shell BR-365
+              <span class="ml-1 text-green-600 font-semibold">· conferido</span>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-slate-100 mx-3"></div>
+        <div class="p-3 flex items-start gap-3 hover:bg-slate-50">
+          <div class="check-validacao mt-1" onclick="this.classList.toggle('checked')"></div>
+          <div class="tipo-indicator bg-red-600 mt-2.5"></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <div class="text-sm font-bold text-red-700">- R$ 45,00</div>
+              <button class="text-slate-400 hover:text-slate-700 btn-press text-sm" onclick="alert('Editar lançamento')">✎</button>
+            </div>
+            <div class="text-sm text-slate-900 truncate">Refeição</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">
+              12:50 · 👤 Motorista (Welton) · Restaurante na estrada
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIA 14/05 -->
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-2">
+          <div class="text-xs font-bold text-slate-900 uppercase">14/05</div>
+          <div class="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-semibold">QUI</div>
+        </div>
+        <div class="text-xs text-slate-500">2 lançamentos</div>
+      </div>
+
+      <div class="bg-white border border-slate-200 rounded-xl overflow-hidden">
+        <div class="p-3 flex items-start gap-3 hover:bg-slate-50">
+          <div class="check-validacao mt-1" onclick="this.classList.toggle('checked')"></div>
+          <div class="tipo-indicator bg-green-600 mt-2.5"></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <div class="text-sm font-bold text-green-700">+ R$ 950,00</div>
+              <button class="text-slate-400 hover:text-slate-700 btn-press text-sm" onclick="alert('Editar')">✎</button>
+            </div>
+            <div class="text-sm text-slate-900 truncate">Frete Patos-Araxá</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">
+              09:00 · 👤 Motorista (Welton)
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-slate-100 mx-3"></div>
+        <div class="p-3 flex items-start gap-3 hover:bg-slate-50">
+          <div class="check-validacao mt-1" onclick="this.classList.toggle('checked')"></div>
+          <div class="tipo-indicator bg-red-600 mt-2.5"></div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <div class="text-sm font-bold text-red-700">- R$ 85,00</div>
+              <button class="text-slate-400 hover:text-slate-700 btn-press text-sm" onclick="alert('Editar')">✎</button>
+            </div>
+            <div class="text-sm text-slate-900 truncate">Pedágio</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">
+              14:15 · 👤 Motorista (Welton)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão "Ver mais" (paginação) -->
+    <div class="text-center pt-2">
+      <button class="text-sm text-slate-600 font-medium border border-slate-200 bg-white px-6 py-2.5 rounded-lg btn-press" onclick="alert('No app real: carregaria mais 10 dias')">
+        ↓ Ver mais dias (12 restantes)
+      </button>
+    </div>
+  </div>
+
+  <!-- CAIXA DE FEEDBACK -->
+  <div class="px-4 pt-6">
+    <div class="bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-300 rounded-xl p-4">
+      <div class="text-sm font-bold text-amber-900 mb-1">💬 Essa tela resolve sua dor?</div>
+      <p class="text-xs text-amber-800 mb-3">Esta é a tela "Histórico" — onde você confere tudo que o motorista lançou. Veja se dá pra:</p>
+      <ul class="text-xs text-amber-800 mb-3 space-y-1 list-disc list-inside">
+        <li>Identificar dias sem lançamento</li>
+        <li>Saber quem lançou (motorista ou você)</li>
+        <li>Marcar ✓ pra confirmar que já conferiu</li>
+      </ul>
+      <div class="grid grid-cols-2 gap-2">
+        <a href="https://wa.me/5534997989375?text=Aprovo%20a%20tela%20de%20Hist%C3%B3rico%21%20Resolve%20minha%20dor." 
+           class="bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-lg text-sm font-semibold text-center btn-press">
+          👍 Aprovo
+        </a>
+        <a href="https://wa.me/5534997989375?text=Sobre%20a%20tela%20Hist%C3%B3rico%2C%20gostaria%20de%20ajustar%3A%20" 
+           class="bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 py-2.5 rounded-lg text-sm font-semibold text-center btn-press">
+          ✏️ Ajustar
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAB ADICIONAR LANÇAMENTO -->
+  <button class="fixed bottom-24 right-4 max-w-[420px] mx-auto bg-amber-500 hover:bg-amber-600 text-white w-14 h-14 rounded-full shadow-xl btn-press flex items-center justify-center text-2xl font-bold z-20" style="right: max(1rem, calc((100vw - 420px) / 2 + 1rem));" onclick="alert('No app real: abriria modal pra escolher entre Adicionar Ganho ou Adicionar Despesa')">
+    +
+  </button>
+
+  <!-- BOTTOM NAV -->
+  <nav class="fixed bottom-0 left-0 right-0 max-w-[420px] mx-auto bg-white border-t border-slate-200 z-30">
+    <div class="grid grid-cols-5 py-2">
+      <div class="flex flex-col items-center gap-0.5 text-slate-400 btn-press">
+        <div class="text-xl">📊</div>
+        <div class="text-[10px]">Dashboard</div>
+      </div>
+      <div class="flex flex-col items-center gap-0.5 text-amber-600 btn-press">
+        <div class="text-xl">💱</div>
+        <div class="text-[10px] font-bold">Ganhos/Desp.</div>
+        <div class="w-1 h-1 rounded-full bg-amber-600 -mb-1"></div>
+      </div>
+      <div class="flex flex-col items-center gap-0.5 text-slate-400 btn-press">
+        <div class="text-xl">🔧</div>
+        <div class="text-[10px]">Manutenção</div>
+      </div>
+      <div class="flex flex-col items-center gap-0.5 text-slate-400 btn-press">
+        <div class="text-xl">📈</div>
+        <div class="text-[10px]">Relatórios</div>
+      </div>
+      <div class="flex flex-col items-center gap-0.5 text-slate-400 btn-press">
+        <div class="text-xl">👤</div>
+        <div class="text-[10px]">Perfil</div>
+      </div>
+    </div>
+  </nav>
+
+</div>
+
+<!-- INSTRUÇÕES DESKTOP -->
+<div class="hidden md:block fixed top-4 right-4 bg-slate-900 text-white p-4 rounded-xl max-w-xs shadow-2xl text-xs z-40">
+  <div class="font-bold mb-2">💡 Visualização Mobile</div>
+  <p class="text-slate-300 mb-2">Este mockup é otimizado pra celular:</p>
+  <ul class="list-disc list-inside text-slate-400 space-y-1">
+    <li>F12 → Toggle device toolbar</li>
+    <li>Ou abra no celular</li>
+  </ul>
+  <a href="../mockup/" class="block mt-3 text-amber-400 hover:underline">← Voltar ao mockup Ganhos/Despesas</a>
+</div>
+
+</body>
+</html>
