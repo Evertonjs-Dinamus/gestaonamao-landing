@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0F0F10">
+  <meta name="theme-color" content="#112a3e">
 
-  <title>Gestão na Mão — Saiba se está no lucro ou prejuízo</title>
-  <meta name="description" content="App de gestão financeira para motoristas autônomos. Veja, em reais, quanto sobra de cada frete depois do combustível, manutenção e KM rodado em vão.">
+  <title>Gestão na Mão — Saiba se o frete vale a pena antes de aceitar</title>
+  <meta name="description" content="App de controle financeiro pra caminhoneiro e transportadora. Veja seu lucro do mês, simule se o frete vale a pena e lance tudo pelo WhatsApp com o Jaime, seu assistente no bolso.">
 
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Gestão na Mão — Saiba se está no lucro ou prejuízo">
-  <meta property="og:description" content="App de gestão financeira para motoristas autônomos. Veja, em reais, quanto sobra de cada frete depois do combustível, manutenção e KM rodado em vão.">
+  <meta property="og:title" content="Gestão na Mão — Saiba se o frete vale a pena antes de aceitar">
+  <meta property="og:description" content="Controle financeiro na palma da mão. Lucro do mês, simulador de frete e lançamento por WhatsApp com o Jaime.">
   <meta property="og:image" content="og-image.svg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -23,16 +23,23 @@
       theme: {
         extend: {
           colors: {
-            'brand-gold': '#F5B544',
-            'brand-gold-dark': '#D4940A',
-            'ink-900': '#0F0F10',
-            'ink-700': '#3A3A3D',
-            'ink-500': '#6B6B70',
-            'bg-soft': '#FAFAF7',
+            /* Identidade do app: azul-marinho + dourado */
+            'navy': '#1b4f72',
+            'navy-900': '#112a3e',
+            'navy-700': '#183a52',
+            'brand-gold': '#c8a84b',
+            'brand-gold-dark': '#a8863a',
+            'ink-900': '#0F1418',
+            'ink-700': '#3A4149',
+            'ink-500': '#6B7280',
+            'bg-soft': '#F7F8FA',
             'bg-card': '#FFFFFF',
-            'border-soft': '#EAEAE6',
-            'success': '#1F9D55',
-            'danger-soft': '#C0392B',
+            'border-soft': '#E7EAEE',
+            /* Resultados */
+            'pos': '#16A34A',
+            'pos-soft': '#22C55E',
+            'neg': '#DC2626',
+            'warn': '#D97706',
           },
           fontFamily: {
             sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Arial', 'sans-serif'],
@@ -47,11 +54,56 @@
   <style>
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
-    .wordmark-dot { color: #F5B544; }
-    /* Mockup do hero — frame de telefone simplificado */
-    .phone-frame {
-      box-shadow: 0 30px 60px -20px rgba(15,15,16,0.25), 0 18px 36px -18px rgba(15,15,16,0.15);
+
+    /* ===== Moldura de celular (device) ===== */
+    .device {
+      border-radius: 2.4rem;
+      border: 11px solid #0d2233;
+      background: #0d2233;
+      box-shadow: 0 30px 60px -20px rgba(17,42,62,0.45), 0 18px 36px -18px rgba(17,42,62,0.25);
+      overflow: hidden;
     }
+    .device-screen { background: #eef1f5; }
+    .device-notch {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 42%; height: 20px; background: #0d2233;
+      border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; z-index: 5;
+    }
+    /* Barra de app interna */
+    .app-topbar { background:#112a3e; }
+
+    /* ===== Roscas (donut) via conic-gradient ===== */
+    .donut-ganhos {
+      background: conic-gradient(#c8a84b 0 60%, #1b4f72 60% 85%, #94a3b8 85% 100%);
+    }
+    .donut-despesas {
+      background: conic-gradient(#1b4f72 0 62%, #c8a84b 62% 76%, #64748b 76% 88%, #cbd5e1 88% 100%);
+    }
+
+    /* ===== WhatsApp mockup ===== */
+    .wa-bg {
+      background-color: #e5ded8;
+      background-image:
+        radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+        radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+      background-size: 22px 22px;
+      background-position: 0 0, 11px 11px;
+    }
+    .wa-in {
+      background:#fff;
+      border-radius: 0 12px 12px 12px;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.08);
+    }
+    .wa-out {
+      background:#d9fdd3;
+      border-radius: 12px 0 12px 12px;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.08);
+    }
+    @keyframes fadeUp { from { opacity:0; transform: translateY(8px);} to {opacity:1; transform:none;} }
+    .wa-anim { opacity:0; animation: fadeUp .5s ease forwards; }
+
+    /* barrinha de gráfico relatórios */
+    .bar { border-radius: 4px 4px 0 0; }
   </style>
 </head>
 <body class="bg-bg-card text-ink-700 font-sans">
@@ -60,27 +112,23 @@
   <header class="sticky top-0 z-50 bg-bg-card/95 backdrop-blur border-b border-border-soft" x-data="{ open: false }">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <a href="/" class="flex items-center gap-3">
-        <img
-          src="assets/logo-frete.png"
-          alt="Logo Gestão na Mão"
-          class="w-10 h-10 rounded-lg object-contain"
-        />
+        <img src="assets/logo-frete.png" alt="Logo Gestão na Mão" class="w-10 h-10 rounded-lg object-contain" />
         <div class="flex flex-col leading-tight">
-          <span class="text-base font-bold text-ink-900">
-            Gestão na <span class="text-brand-gold-dark">Mão</span>
-          </span>
-          <span class="text-[10px] text-ink-700">by Dinamus</span>
+          <span class="text-base font-bold text-ink-900">Gestão na <span class="text-brand-gold-dark">Mão</span></span>
+          <span class="text-[10px] text-ink-500">by Dinamus</span>
         </div>
       </a>
 
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-ink-700">
-        <a href="#solucao" class="hover:text-ink-900">Solução</a>
-        <a href="#preco" class="hover:text-ink-900">Preço</a>
-        <a href="#faq" class="hover:text-ink-900">FAQ</a>
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-ink-700">
+        <a href="#jaime" class="hover:text-navy">Jaime</a>
+        <a href="#telas" class="hover:text-navy">Telas</a>
+        <a href="#solucao" class="hover:text-navy">Recursos</a>
+        <a href="#preco" class="hover:text-navy">Planos</a>
+        <a href="#faq" class="hover:text-navy">FAQ</a>
         <a href="https://app.gestaonamao.app.br/login" class="text-ink-900 hover:text-brand-gold-dark">Entrar</a>
       </nav>
 
-      <a href="https://app.gestaonamao.app.br/login" class="hidden md:inline-flex items-center justify-center bg-brand-gold hover:bg-brand-gold-dark text-ink-900 font-semibold text-sm px-5 py-2.5 rounded-lg transition">
+      <a href="https://app.gestaonamao.app.br/login" class="hidden md:inline-flex items-center justify-center bg-brand-gold hover:bg-brand-gold-dark text-navy-900 font-semibold text-sm px-5 py-2.5 rounded-lg transition">
         Começar grátis
       </a>
 
@@ -92,13 +140,13 @@
 
     <div x-show="open" @click.outside="open = false" x-transition class="md:hidden border-t border-border-soft bg-bg-card" style="display:none">
       <nav class="px-4 py-4 flex flex-col gap-4 text-base">
-        <a href="#solucao" @click="open = false" class="text-ink-700">Solução</a>
-        <a href="#preco" @click="open = false" class="text-ink-700">Preço</a>
+        <a href="#jaime" @click="open = false" class="text-ink-700">Jaime</a>
+        <a href="#telas" @click="open = false" class="text-ink-700">Telas</a>
+        <a href="#solucao" @click="open = false" class="text-ink-700">Recursos</a>
+        <a href="#preco" @click="open = false" class="text-ink-700">Planos</a>
         <a href="#faq" @click="open = false" class="text-ink-700">FAQ</a>
         <a href="https://app.gestaonamao.app.br/login" @click="open = false" class="text-ink-900 font-medium">Entrar</a>
-        <a href="https://app.gestaonamao.app.br/login" @click="open = false" class="bg-brand-gold hover:bg-brand-gold-dark text-ink-900 font-semibold text-center px-5 py-3 rounded-lg">
-          Começar grátis
-        </a>
+        <a href="https://app.gestaonamao.app.br/login" @click="open = false" class="bg-brand-gold hover:bg-brand-gold-dark text-navy-900 font-semibold text-center px-5 py-3 rounded-lg">Começar grátis</a>
       </nav>
     </div>
   </header>
@@ -108,161 +156,127 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-12 pb-16 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28">
       <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-navy/8 border border-navy/15 mb-5">
+            <span class="w-2 h-2 rounded-full bg-pos"></span>
+            <span class="text-xs font-semibold text-navy">Feito pra caminhoneiro e transportadora autônoma</span>
+          </div>
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-ink-900 leading-[1.05] tracking-tight">
-            Rodar muito não é o mesmo que <span class="text-brand-gold">lucrar muito</span>.
+            Rodar muito não é o mesmo que <span class="text-brand-gold-dark">lucrar muito</span>.
           </h1>
           <p class="mt-6 text-lg sm:text-xl text-ink-700 leading-relaxed max-w-xl">
-            Descubra quanto realmente sobra do seu trabalho — sem planilha, direto no celular.
+            Saiba na hora se o frete vale a pena, quanto sobrou no fim do mês e o que o caminhão tá comendo — sem planilha, direto no celular. E dá pra lançar tudo <span class="font-semibold text-navy">mandando um áudio ou mensagem no WhatsApp</span>.
           </p>
-          <div class="mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/30">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-brand-gold-dark">
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-            </svg>
-            <span class="text-sm font-semibold text-brand-gold-dark">
-              Premium por menos de R$ 1 por dia
-            </span>
-          </div>
-          <div class="mt-8">
-            <a href="https://app.gestaonamao.app.br/login" class="inline-flex items-center justify-center bg-brand-gold hover:bg-brand-gold-dark text-ink-900 font-bold text-base sm:text-lg px-8 py-4 rounded-xl shadow-lg shadow-brand-gold/30 transition">
+          <div class="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <a href="https://app.gestaonamao.app.br/login" class="inline-flex items-center justify-center bg-brand-gold hover:bg-brand-gold-dark text-navy-900 font-bold text-base sm:text-lg px-8 py-4 rounded-xl shadow-lg shadow-brand-gold/30 transition">
               Começar grátis
               <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
-            <p class="mt-3 text-sm">
-              <span class="font-semibold text-ink-900">Comece sem cartão.</span>
-              <span class="text-ink-700"> Sem fidelidade. Cancela quando quiser.</span>
-            </p>
+            <a href="#jaime" class="inline-flex items-center gap-2 text-navy font-semibold hover:text-navy-900">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.05 21.785h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.002-5.45 4.437-9.884 9.888-9.884a9.825 9.825 0 0 1 6.988 2.898 9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
+              Conheça o Jaime
+            </a>
           </div>
+          <p class="mt-4 text-sm">
+            <span class="font-semibold text-ink-900">Comece sem cartão.</span>
+            <span class="text-ink-700"> 7 dias grátis. Cancela quando quiser.</span>
+          </p>
         </div>
 
-        <!-- Mosaico de 2 telas do Dashboard -->
-        <div class="relative mx-auto flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
-
-          <!-- Celular 1: Topo do Dashboard (com selos flutuantes) -->
-          <div class="relative" style="max-width: 280px;">
-            <div class="rounded-[2.5rem] border-[10px] border-ink-900 bg-ink-900 shadow-2xl overflow-hidden">
-              <img
-                src="assets/screenshot-dashboard-top.png"
-                alt="Dashboard mostrando lucro líquido R$ 9.886,20 com badge Saudável, KPIs e gráfico de distribuição de custos"
-                class="block w-full h-auto"
-                loading="eager"
-              />
-            </div>
-            <!-- Selo: lucro -->
-            <div class="absolute -top-2 -right-2 bg-green-700 text-green-50 text-xs font-medium px-3 py-1.5 rounded-full shadow-md">
-              + R$ 1.247 de lucro
-            </div>
-            <!-- Selo: fretes -->
-            <div class="absolute -bottom-2 -left-2 bg-white border border-border-soft text-ink-700 text-xs font-medium px-3 py-1.5 rounded-md shadow-md flex items-center gap-1.5">
-              <svg class="w-4 h-4 text-brand-gold-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m-12 6h12m0 0l-4 4m4-4l-4-4"></path>
-              </svg>
-              14 fretes este mês
+        <!-- Mockup do hero: Dashboard recriado em CSS -->
+        <div class="relative mx-auto w-full max-w-[300px]">
+          <div class="device relative">
+            <div class="device-notch"></div>
+            <div class="device-screen">
+              <!-- topo app -->
+              <div class="app-topbar px-4 pt-6 pb-4 text-white">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="text-[10px] uppercase tracking-wider text-white/50">Resultado de Julho</div>
+                    <div class="text-3xl font-extrabold text-pos-soft mt-0.5">+R$ 10.623</div>
+                  </div>
+                  <span class="inline-flex items-center gap-1 bg-pos/20 text-pos-soft text-[10px] font-bold px-2 py-1 rounded-full">🟢 No verde</span>
+                </div>
+                <div class="mt-3 h-1.5 rounded-full bg-white/15 overflow-hidden">
+                  <div class="h-full bg-brand-gold" style="width:88%"></div>
+                </div>
+                <div class="mt-1 text-[10px] text-white/60">Meta do mês: R$ 12.000 · 88% batida</div>
+              </div>
+              <!-- KPIs -->
+              <div class="p-3 grid grid-cols-2 gap-2 text-navy-900">
+                <div class="bg-white rounded-xl p-3 border border-border-soft">
+                  <div class="text-[10px] text-ink-500">Margem</div>
+                  <div class="text-lg font-bold">31%</div>
+                </div>
+                <div class="bg-white rounded-xl p-3 border border-border-soft">
+                  <div class="text-[10px] text-ink-500">Consumo</div>
+                  <div class="text-lg font-bold">2,8 <span class="text-xs font-medium text-ink-500">km/L</span></div>
+                </div>
+                <div class="bg-white rounded-xl p-3 border border-border-soft">
+                  <div class="text-[10px] text-ink-500">Custo / km</div>
+                  <div class="text-lg font-bold">R$ 3,90</div>
+                </div>
+                <div class="bg-white rounded-xl p-3 border border-border-soft">
+                  <div class="text-[10px] text-ink-500">Lucro / km</div>
+                  <div class="text-lg font-bold text-pos">R$ 1,74</div>
+                </div>
+              </div>
             </div>
           </div>
-
-          <!-- Celular 2: Análise inteligente -->
-          <div class="rounded-[2.5rem] border-[10px] border-ink-900 bg-ink-900 shadow-2xl overflow-hidden sm:mt-16" style="max-width: 280px;">
-            <img
-              src="assets/screenshot-dashboard-insights.png"
-              alt="Análise inteligente com comparação de mês anterior, modalidade que deu prejuízo e alertas de manutenção"
-              class="block w-full h-auto"
-              loading="eager"
-            />
+          <!-- selo flutuante -->
+          <div class="absolute -bottom-3 -left-3 bg-white border border-border-soft text-navy-900 text-xs font-semibold px-3 py-2 rounded-xl shadow-lg flex items-center gap-2">
+            <span class="text-brand-gold-dark text-base">🦅</span> Lançado pelo Jaime
           </div>
-
         </div>
       </div>
     </div>
   </section>
 
   <!-- METÁFORA: Painel do caminhão -->
-  <section class="bg-white py-16 md:py-24 border-t border-gray-100">
+  <section class="bg-white py-16 md:py-24 border-t border-border-soft">
     <div class="max-w-6xl mx-auto px-6">
-
-      <!-- Bloco visual: 2 painéis lado a lado -->
       <div class="flex items-center justify-center gap-4 md:gap-12 mb-12">
-
-        <!-- Painel APAGADO (esquerda) -->
+        <!-- Painel APAGADO -->
         <div class="flex flex-col items-center">
           <svg viewBox="0 0 200 200" class="w-32 h-32 md:w-48 md:h-48" xmlns="http://www.w3.org/2000/svg">
-            <!-- Anel externo -->
             <circle cx="100" cy="100" r="92" fill="none" stroke="#e5e7eb" stroke-width="3"/>
-            <!-- Fundo do mostrador -->
             <circle cx="100" cy="100" r="80" fill="#1f2937"/>
-            <!-- Marcações do dial (apagadas) -->
             <g stroke="#4b5563" stroke-width="2" stroke-linecap="round">
-              <line x1="100" y1="30" x2="100" y2="38"/>
-              <line x1="158" y1="60" x2="153" y2="65"/>
-              <line x1="170" y1="100" x2="162" y2="100"/>
-              <line x1="158" y1="140" x2="153" y2="135"/>
-              <line x1="42" y1="140" x2="47" y2="135"/>
-              <line x1="30" y1="100" x2="38" y2="100"/>
-              <line x1="42" y1="60" x2="47" y2="65"/>
+              <line x1="100" y1="30" x2="100" y2="38"/><line x1="158" y1="60" x2="153" y2="65"/><line x1="170" y1="100" x2="162" y2="100"/><line x1="158" y1="140" x2="153" y2="135"/><line x1="42" y1="140" x2="47" y2="135"/><line x1="30" y1="100" x2="38" y2="100"/><line x1="42" y1="60" x2="47" y2="65"/>
             </g>
-            <!-- Ponteiro apagado (em zero) -->
             <line x1="100" y1="100" x2="50" y2="135" stroke="#6b7280" stroke-width="3" stroke-linecap="round"/>
-            <!-- Centro -->
             <circle cx="100" cy="100" r="6" fill="#374151"/>
-            <!-- Texto "OFF" -->
             <text x="100" y="160" text-anchor="middle" fill="#6b7280" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600">DESLIGADO</text>
           </svg>
-          <p class="text-sm text-gray-500 mt-3 font-medium">Sem visão</p>
+          <p class="text-sm text-ink-500 mt-3 font-medium">Sem visão</p>
         </div>
-
-        <!-- Seta de transformação -->
         <div class="flex items-center">
-          <svg class="w-8 h-8 md:w-12 md:h-12 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-          </svg>
+          <svg class="w-8 h-8 md:w-12 md:h-12 text-brand-gold-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
         </div>
-
-        <!-- Painel LIGADO (direita) -->
+        <!-- Painel LIGADO -->
         <div class="flex flex-col items-center">
           <svg viewBox="0 0 200 200" class="w-32 h-32 md:w-48 md:h-48" xmlns="http://www.w3.org/2000/svg">
-            <!-- Glow externo (efeito "aceso") -->
-            <circle cx="100" cy="100" r="95" fill="#fbbf24" opacity="0.15"/>
-            <!-- Anel externo -->
-            <circle cx="100" cy="100" r="92" fill="none" stroke="#fbbf24" stroke-width="3"/>
-            <!-- Fundo do mostrador -->
-            <circle cx="100" cy="100" r="80" fill="#1f2937"/>
-            <!-- Arco colorido (zona "boa") -->
-            <path d="M 35 130 A 70 70 0 0 1 165 130" fill="none" stroke="#fbbf24" stroke-width="6" stroke-linecap="round"/>
-            <!-- Marcações do dial (acesas) -->
-            <g stroke="#fbbf24" stroke-width="2" stroke-linecap="round">
-              <line x1="100" y1="30" x2="100" y2="38"/>
-              <line x1="158" y1="60" x2="153" y2="65"/>
-              <line x1="170" y1="100" x2="162" y2="100"/>
-              <line x1="158" y1="140" x2="153" y2="135"/>
-              <line x1="42" y1="140" x2="47" y2="135"/>
-              <line x1="30" y1="100" x2="38" y2="100"/>
-              <line x1="42" y1="60" x2="47" y2="65"/>
+            <circle cx="100" cy="100" r="95" fill="#c8a84b" opacity="0.16"/>
+            <circle cx="100" cy="100" r="92" fill="none" stroke="#c8a84b" stroke-width="3"/>
+            <circle cx="100" cy="100" r="80" fill="#112a3e"/>
+            <path d="M 35 130 A 70 70 0 0 1 165 130" fill="none" stroke="#c8a84b" stroke-width="6" stroke-linecap="round"/>
+            <g stroke="#c8a84b" stroke-width="2" stroke-linecap="round">
+              <line x1="100" y1="30" x2="100" y2="38"/><line x1="158" y1="60" x2="153" y2="65"/><line x1="170" y1="100" x2="162" y2="100"/><line x1="158" y1="140" x2="153" y2="135"/><line x1="42" y1="140" x2="47" y2="135"/><line x1="30" y1="100" x2="38" y2="100"/><line x1="42" y1="60" x2="47" y2="65"/>
             </g>
-            <!-- Ponteiro ativo (apontando pra "lucro") -->
-            <line x1="100" y1="100" x2="150" y2="65" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/>
-            <!-- Centro brilhante -->
-            <circle cx="100" cy="100" r="7" fill="#fbbf24"/>
-            <circle cx="100" cy="100" r="3" fill="#fff"/>
-            <!-- Texto "ON" -->
-            <text x="100" y="160" text-anchor="middle" fill="#fbbf24" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700">LIGADO</text>
+            <line x1="100" y1="100" x2="150" y2="65" stroke="#c8a84b" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="100" cy="100" r="7" fill="#c8a84b"/><circle cx="100" cy="100" r="3" fill="#fff"/>
+            <text x="100" y="160" text-anchor="middle" fill="#c8a84b" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700">LIGADO</text>
           </svg>
-          <p class="text-sm text-amber-600 mt-3 font-semibold">Decisão fácil</p>
+          <p class="text-sm text-brand-gold-dark mt-3 font-semibold">Decisão fácil</p>
         </div>
-
       </div>
-
-      <!-- Texto da metáfora -->
       <div class="max-w-2xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-5 leading-tight">
-          Imagine dirigir sem o painel ligado.
-        </h2>
-        <p class="text-lg text-gray-600 leading-relaxed">
-          Difícil, né? Você não saberia a velocidade, o combustível, a temperatura. No final do mês, é mais ou menos isso que acontece sem registro do que entra e sai. O <span class="font-semibold text-gray-900">Gestão na Mão</span> liga seu painel financeiro — em <span class="font-semibold text-amber-600">1 minuto por dia</span>.
+        <h2 class="text-3xl md:text-4xl font-extrabold text-ink-900 mb-5 leading-tight">Imagine dirigir sem o painel ligado.</h2>
+        <p class="text-lg text-ink-700 leading-relaxed">
+          Difícil, né? Não saberia velocidade, combustível, temperatura. No fim do mês, é isso que acontece sem registro do que entra e sai. O <span class="font-semibold text-ink-900">Gestão na Mão</span> liga seu painel financeiro — em <span class="font-semibold text-brand-gold-dark">1 minuto por dia</span>.
         </p>
       </div>
-
     </div>
   </section>
-  <!-- /METÁFORA -->
 
   <!-- ============== PROBLEMA ============== -->
   <section class="bg-bg-soft border-y border-border-soft">
@@ -273,336 +287,592 @@
           Você passa o mês inteiro rodando — e no fim, não sabe quanto sobrou.
         </h2>
       </div>
-
       <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="bg-bg-card border border-border-soft rounded-xl p-6">
-          <div class="w-10 h-10 rounded-lg bg-danger-soft/10 flex items-center justify-center text-danger-soft">
+          <div class="w-10 h-10 rounded-lg bg-neg/10 flex items-center justify-center text-neg">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           </div>
-          <h3 class="mt-4 font-bold text-ink-900">Você sabe seu custo por KM?</h3>
-          <p class="mt-2 text-sm text-ink-700 leading-relaxed">A maioria dos motoristas não sabe. Aceita frete que parece bom e descobre tarde que rodou de graça.</p>
+          <h3 class="mt-4 font-bold text-ink-900">Sabe seu custo por KM?</h3>
+          <p class="mt-2 text-sm text-ink-700 leading-relaxed">A maioria não sabe. Aceita frete que parece bom e descobre tarde que rodou de graça.</p>
         </div>
-
         <div class="bg-bg-card border border-border-soft rounded-xl p-6">
-          <div class="w-10 h-10 rounded-lg bg-danger-soft/10 flex items-center justify-center text-danger-soft">
+          <div class="w-10 h-10 rounded-lg bg-neg/10 flex items-center justify-center text-neg">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
           </div>
           <h3 class="mt-4 font-bold text-ink-900">KM morto come o lucro</h3>
-          <p class="mt-2 text-sm text-ink-700 leading-relaxed">Trajeto pra pegar carga, retorno vazio, ida pro abastecimento. Tudo isso queima combustível sem entrar dinheiro.</p>
+          <p class="mt-2 text-sm text-ink-700 leading-relaxed">Trajeto pra pegar carga, retorno vazio, ida pro posto. Tudo queima diesel sem entrar dinheiro.</p>
         </div>
-
         <div class="bg-bg-card border border-border-soft rounded-xl p-6">
-          <div class="w-10 h-10 rounded-lg bg-danger-soft/10 flex items-center justify-center text-danger-soft">
+          <div class="w-10 h-10 rounded-lg bg-neg/10 flex items-center justify-center text-neg">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V6a2 2 0 0 1 2-2h9l5 5v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M14 4v5h5"/></svg>
           </div>
-          <h3 class="mt-4 font-bold text-ink-900">Combustível que some</h3>
-          <p class="mt-2 text-sm text-ink-700 leading-relaxed">Abasteceu R$ 400 ontem e hoje já bateu na reserva. Sem registrar, é impossível ver onde está furando.</p>
+          <h3 class="mt-4 font-bold text-ink-900">Anotar dá preguiça</h3>
+          <p class="mt-2 text-sm text-ink-700 leading-relaxed">Caderninho na luva, planilha que ninguém abre. No fim ninguém lança nada e o controle morre.</p>
         </div>
-
         <div class="bg-bg-card border border-border-soft rounded-xl p-6">
-          <div class="w-10 h-10 rounded-lg bg-danger-soft/10 flex items-center justify-center text-danger-soft">
+          <div class="w-10 h-10 rounded-lg bg-neg/10 flex items-center justify-center text-neg">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           </div>
           <h3 class="mt-4 font-bold text-ink-900">Descobre tarde demais</h3>
-          <p class="mt-2 text-sm text-ink-700 leading-relaxed">Você só percebe que rodou no prejuízo no fim do mês — quando já era. Não dá pra corrigir o que já passou.</p>
+          <p class="mt-2 text-sm text-ink-700 leading-relaxed">Só percebe que rodou no prejuízo no fim do mês — quando já era. Não dá pra corrigir o que passou.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============== SOLUÇÃO ============== -->
-  <section id="solucao" class="bg-bg-card">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-      <div class="max-w-2xl">
-        <p class="text-sm font-semibold text-brand-gold-dark uppercase tracking-wider">A solução</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-ink-900 leading-tight">
-          Tudo que você precisa pra parar de rodar no escuro.
-        </h2>
-        <p class="mt-4 text-lg text-ink-700">Sem termo contábil, sem planilha confusa. Linguagem que você entende.</p>
+  <!-- ============== CONHEÇA O JAIME ============== -->
+  <section id="jaime" class="bg-navy-900 text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.06]" style="background-image:radial-gradient(#c8a84b 1px, transparent 1px); background-size:24px 24px;"></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24 relative">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+        <!-- Texto -->
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-gold/15 border border-brand-gold/30 mb-5">
+            <span class="text-lg">🦅</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">A grande novidade do app</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-extrabold leading-[1.05]">
+            Conheça o <span class="text-brand-gold">Jaime</span>.
+          </h2>
+          <p class="mt-3 text-xl sm:text-2xl text-white font-semibold">Seu assistente financeiro no bolso.</p>
+          <p class="mt-5 text-lg text-white/75 leading-relaxed max-w-lg">
+            O Jaime é o assistente do Gestão na Mão que mora no seu <span class="font-semibold text-white">WhatsApp</span>. Recebeu um frete? Abasteceu? Pagou o pedágio? É só <span class="font-semibold text-brand-gold">mandar um áudio ou uma mensagem</span>, do jeito que você fala. O Jaime entende e <span class="font-semibold text-brand-gold">lança tudo pra você</span> — sem abrir o app, sem preencher formulário.
+          </p>
+
+          <!-- selo áudio + texto -->
+          <div class="mt-6 flex flex-wrap gap-2">
+            <span class="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 rounded-full px-3 py-1.5 text-sm font-semibold text-white">🎙️ Entende áudio</span>
+            <span class="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 rounded-full px-3 py-1.5 text-sm font-semibold text-white">💬 Entende texto</span>
+            <span class="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 rounded-full px-3 py-1.5 text-sm font-semibold text-white">📵 Sem abrir o app</span>
+          </div>
+
+          <ul class="mt-7 space-y-3.5 text-white/90">
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-6 h-6 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center flex-shrink-0">🎙️</span>
+              <span><strong class="text-white">Manda áudio dirigindo</strong>: "recebi 4200 de frete de SP pra Curitiba" — o Jaime ouve e lança.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-6 h-6 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center flex-shrink-0">⚡</span>
+              <span>Lança frete, combustível, pedágio e despesa na hora, direto na conversa.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-6 h-6 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center flex-shrink-0">🛣️</span>
+              <span>Feito pra estrada: mão no volante, nada de mexer em tela nem digitar em formulário.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-6 h-6 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center flex-shrink-0">📊</span>
+              <span>Te dá o número na hora: "teu lucro do mês tá em +R$ 10.623 no verde".</span>
+            </li>
+          </ul>
+
+          <a href="https://app.gestaonamao.app.br/login" class="mt-8 inline-flex items-center justify-center bg-brand-gold hover:bg-brand-gold-dark text-navy-900 font-bold text-base px-7 py-3.5 rounded-xl transition">
+            Quero lançar pelo WhatsApp
+            <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+
+        <!-- Mockup WhatsApp -->
+        <div class="relative mx-auto w-full max-w-[320px]">
+          <div class="device relative">
+            <div class="device-notch"></div>
+            <!-- header WhatsApp -->
+            <div class="bg-[#075E54] text-white px-3 pt-6 pb-2.5 flex items-center gap-3">
+              <svg width="10" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="opacity-90"><polyline points="15 18 9 12 15 6"/></svg>
+              <div class="w-9 h-9 rounded-full bg-brand-gold flex items-center justify-center text-navy-900 text-lg">🦅</div>
+              <div class="leading-tight">
+                <div class="font-semibold text-[15px]">Jaime · Gestão na Mão</div>
+                <div class="text-[11px] text-white/70">online</div>
+              </div>
+              <div class="ml-auto flex items-center gap-4 text-white/80">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm0 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>
+              </div>
+            </div>
+            <!-- conversa -->
+            <div class="wa-bg px-3 py-4 space-y-2.5 text-[13px] text-navy-900" style="min-height: 430px;">
+              <div class="text-center">
+                <span class="inline-block bg-[#d0e7f5] text-[#155e75] text-[10px] px-2 py-1 rounded-md">Hoje</span>
+              </div>
+
+              <div class="flex justify-end wa-anim" style="animation-delay:.1s">
+                <div class="wa-out px-3 py-2 max-w-[85%]">
+                  <!-- mensagem de voz -->
+                  <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-full bg-[#075E54] text-white flex items-center justify-center flex-shrink-0">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="flex items-end gap-[2px] h-5">
+                      <span class="w-[3px] h-2 bg-[#4aa06f] rounded"></span><span class="w-[3px] h-4 bg-[#4aa06f] rounded"></span><span class="w-[3px] h-5 bg-[#4aa06f] rounded"></span><span class="w-[3px] h-3 bg-[#4aa06f] rounded"></span><span class="w-[3px] h-4 bg-[#4aa06f] rounded"></span><span class="w-[3px] h-2 bg-[#4aa06f] rounded"></span><span class="w-[3px] h-3 bg-[#4aa06f] rounded"></span><span class="w-[3px] h-1.5 bg-[#4aa06f] rounded"></span>
+                    </span>
+                    <span class="text-[10px] text-ink-500">0:06</span>
+                  </div>
+                  <div class="text-[9px] text-ink-500 text-right mt-1 flex items-center justify-end gap-1"><span class="italic">🎙️ áudio</span> 09:12 ✓✓</div>
+                </div>
+              </div>
+
+              <div class="flex justify-start wa-anim" style="animation-delay:.5s">
+                <div class="wa-in px-3 py-2 max-w-[85%]">
+                  Ouvi seu áudio 👂 Lancei aqui:<br>
+                  <span class="font-semibold">Frete · SP → Curitiba</span><br>
+                  <span class="text-pos font-semibold">+ R$ 4.200,00</span> · já entrou no seu mês.<br>
+                  Quer que eu registre o combustível dessa viagem também?
+                  <div class="text-[9px] text-ink-500 text-right mt-1">09:12</div>
+                </div>
+              </div>
+
+              <div class="flex justify-end wa-anim" style="animation-delay:1s">
+                <div class="wa-out px-3 py-2 max-w-[80%]">
+                  abasteci 780 no posto graal
+                  <div class="text-[9px] text-ink-500 text-right mt-1">09:13 ✓✓</div>
+                </div>
+              </div>
+
+              <div class="flex justify-start wa-anim" style="animation-delay:1.4s">
+                <div class="wa-in px-3 py-2 max-w-[85%]">
+                  Feito ✅ Despesa de combustível <span class="font-semibold text-neg">− R$ 780,00</span> lançada.<br>
+                  Com esse frete, teu lucro de julho tá em <span class="font-semibold text-pos">+R$ 10.623</span> 🟢 no verde.
+                  <div class="text-[9px] text-ink-500 text-right mt-1">09:13</div>
+                </div>
+              </div>
+
+              <div class="flex justify-end wa-anim" style="animation-delay:1.9s">
+                <div class="wa-out px-3 py-2 max-w-[80%]">
+                  esse Jaime é bom demais 👊
+                  <div class="text-[9px] text-ink-500 text-right mt-1">09:14 ✓✓</div>
+                </div>
+              </div>
+            </div>
+            <!-- input -->
+            <div class="bg-[#f0f0f0] px-2 py-2 flex items-center gap-2">
+              <div class="flex-1 bg-white rounded-full px-3 py-2 text-[12px] text-ink-500 flex items-center gap-2">
+                <span>😊</span> Mensagem ou áudio pro Jaime
+              </div>
+              <div class="w-9 h-9 rounded-full bg-[#075E54] flex items-center justify-center text-white">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"/><path d="M17 11a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="absolute -top-3 -right-3 bg-brand-gold text-navy-900 text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">Sem abrir o app</div>
+        </div>
       </div>
 
-      <div class="mt-12 grid md:grid-cols-2 gap-6">
-        <div class="bg-bg-soft border border-border-soft rounded-2xl p-7">
-          <div class="w-12 h-12 rounded-xl bg-brand-gold/20 flex items-center justify-center text-brand-gold-dark">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <!-- Faixa: o que o Jaime faz por você -->
+      <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <div class="text-3xl">🎙️</div>
+          <h3 class="mt-3 font-bold text-white">Áudio ou texto</h3>
+          <p class="mt-1.5 text-sm text-white/70 leading-relaxed">Manda do jeito que der: fala no áudio dirigindo ou digita uma linha. O Jaime entende os dois.</p>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <div class="text-3xl">⚡</div>
+          <h3 class="mt-3 font-bold text-white">Lança na hora</h3>
+          <p class="mt-1.5 text-sm text-white/70 leading-relaxed">Frete, combustível, pedágio, despesa. Ele registra no seu mês na mesma conversa, em segundos.</p>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <div class="text-3xl">📊</div>
+          <h3 class="mt-3 font-bold text-white">Responde seu resultado</h3>
+          <p class="mt-1.5 text-sm text-white/70 leading-relaxed">Pergunta "quanto tô lucrando?" e ele te dá o número do mês na hora, sem você abrir nada.</p>
+        </div>
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <div class="text-3xl">👥</div>
+          <h3 class="mt-3 font-bold text-white">Um Jaime por motorista</h3>
+          <p class="mt-1.5 text-sm text-white/70 leading-relaxed">Nos planos com equipe, cada motorista lança pelo próprio WhatsApp e cai tudo na conta da frota.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== TELAS (VEJA POR DENTRO) ============== -->
+  <section id="telas" class="py-20 lg:py-24 bg-bg-card">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center max-w-2xl mx-auto">
+        <p class="text-sm font-bold tracking-wider uppercase text-brand-gold-dark">Veja por dentro</p>
+        <h2 class="mt-3 text-4xl lg:text-5xl font-extrabold text-ink-900 leading-tight">Simples na tela. Direto no bolso.</h2>
+        <p class="mt-4 text-lg text-ink-700">Sem dashboard que parece painel de avião. Tudo no celular, na sua mão.</p>
+      </div>
+
+      <div class="mt-14 grid md:grid-cols-2 gap-x-8 gap-y-16">
+
+        <!-- TELA 1: DASHBOARD -->
+        <div class="flex flex-col items-center text-center">
+          <div class="device relative w-full max-w-[290px]">
+            <div class="device-notch"></div>
+            <div class="app-topbar px-4 pt-6 pb-4 text-white text-left">
+              <div class="text-[10px] uppercase tracking-wider text-white/50">Resultado de Julho</div>
+              <div class="flex items-end justify-between">
+                <div class="text-3xl font-extrabold text-pos-soft mt-0.5">+R$ 10.623</div>
+                <span class="mb-1 inline-flex items-center gap-1 bg-pos/20 text-pos-soft text-[10px] font-bold px-2 py-1 rounded-full">Saudável</span>
+              </div>
+              <div class="mt-3 h-1.5 rounded-full bg-white/15 overflow-hidden"><div class="h-full bg-brand-gold" style="width:88%"></div></div>
+              <div class="mt-1 text-[10px] text-white/60">Meta: R$ 12.000 · 88% batida</div>
+            </div>
+            <div class="p-3 grid grid-cols-3 gap-2 text-navy-900 device-screen">
+              <div class="bg-white rounded-lg p-2.5 border border-border-soft"><div class="text-[9px] text-ink-500">Margem</div><div class="text-base font-bold">31%</div></div>
+              <div class="bg-white rounded-lg p-2.5 border border-border-soft"><div class="text-[9px] text-ink-500">Consumo</div><div class="text-base font-bold">2,8</div><div class="text-[9px] text-ink-500">km/L</div></div>
+              <div class="bg-white rounded-lg p-2.5 border border-border-soft"><div class="text-[9px] text-ink-500">Custo/km</div><div class="text-base font-bold">3,90</div></div>
+              <div class="bg-white rounded-lg p-2.5 border border-border-soft col-span-3 flex items-center justify-between">
+                <div><div class="text-[9px] text-ink-500">Lucro por km rodado</div><div class="text-base font-bold text-pos">R$ 1,74 / km</div></div>
+                <span class="text-2xl">🛣️</span>
+              </div>
+            </div>
           </div>
-          <h3 class="mt-5 text-xl font-bold text-ink-900">KM Morto rastreado</h3>
-          <p class="mt-2 text-ink-700 leading-relaxed">Toda vez que você roda sem carga, o app marca. No fim do mês, você vê quantos km você queimou de graça — e o quanto isso custou.</p>
+          <h3 class="mt-6 text-lg font-bold text-ink-900">Dashboard — o mês num olhar</h3>
+          <p class="mt-2 text-ink-700 leading-relaxed text-sm max-w-xs">Resultado em destaque, meta, margem, consumo em km/L, custo e lucro por km. Sem letra miúda.</p>
         </div>
 
-        <div class="bg-bg-soft border border-border-soft rounded-2xl p-7">
-          <div class="w-12 h-12 rounded-xl bg-brand-gold/20 flex items-center justify-center text-brand-gold-dark">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <!-- TELA 2: SIMULADOR DE FRETE -->
+        <div class="flex flex-col items-center text-center">
+          <div class="device relative w-full max-w-[290px]">
+            <div class="device-notch"></div>
+            <div class="app-topbar px-4 pt-6 pb-3 text-white text-left">
+              <div class="text-sm font-semibold">Simulador de frete</div>
+              <div class="text-[10px] text-white/60">Vale a pena aceitar?</div>
+            </div>
+            <div class="device-screen p-3 text-left">
+              <div class="grid grid-cols-3 gap-2 mb-3">
+                <div class="bg-white rounded-lg p-2 border border-border-soft"><div class="text-[9px] text-ink-500">KM</div><div class="text-sm font-bold text-navy-900">1.200</div></div>
+                <div class="bg-white rounded-lg p-2 border border-border-soft"><div class="text-[9px] text-ink-500">Valor</div><div class="text-sm font-bold text-navy-900">6.500</div></div>
+                <div class="bg-white rounded-lg p-2 border border-border-soft"><div class="text-[9px] text-ink-500">Custo</div><div class="text-sm font-bold text-navy-900">4.200</div></div>
+              </div>
+              <!-- selo VALE A PENA -->
+              <div class="rounded-xl bg-pos text-white text-center py-3 shadow-lg">
+                <div class="text-2xl font-extrabold tracking-tight">✅ VALE A PENA</div>
+                <div class="text-[11px] text-white/85">Aceita esse frete de olhos fechados</div>
+              </div>
+              <div class="grid grid-cols-3 gap-2 mt-3">
+                <div class="bg-white rounded-lg p-2 border border-border-soft text-center"><div class="text-[9px] text-ink-500">Lucro</div><div class="text-sm font-bold text-pos">R$ 2.300</div></div>
+                <div class="bg-white rounded-lg p-2 border border-border-soft text-center"><div class="text-[9px] text-ink-500">Margem</div><div class="text-sm font-bold text-navy-900">35%</div></div>
+                <div class="bg-white rounded-lg p-2 border border-border-soft text-center"><div class="text-[9px] text-ink-500">ROI</div><div class="text-sm font-bold text-navy-900">55%</div></div>
+              </div>
+            </div>
           </div>
-          <h3 class="mt-5 text-xl font-bold text-ink-900">Análise didática em texto</h3>
-          <p class="mt-2 text-ink-700 leading-relaxed">Em vez de gráfico complicado, o app conta a história: "Esse mês você tirou R$ 0,42 por km. Mês passado foi R$ 0,38. Tá melhor."</p>
+          <h3 class="mt-6 text-lg font-bold text-ink-900">Simulador — aceita ou recusa?</h3>
+          <p class="mt-2 text-ink-700 leading-relaxed text-sm max-w-xs">Digita KM, valor e custo. Na hora ele diz se o frete <strong>vale a pena</strong> — com lucro, margem e ROI. Sem chute.</p>
         </div>
 
-        <div class="bg-bg-soft border border-border-soft rounded-2xl p-7">
-          <div class="w-12 h-12 rounded-xl bg-brand-gold/20 flex items-center justify-center text-brand-gold-dark">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        <!-- TELA 3: MANUTENÇÃO -->
+        <div class="flex flex-col items-center text-center">
+          <div class="device relative w-full max-w-[290px]">
+            <div class="device-notch"></div>
+            <div class="app-topbar px-4 pt-6 pb-3 text-white text-left">
+              <div class="text-sm font-semibold">Manutenção</div>
+              <div class="text-[10px] text-white/60">Trocas e alertas do caminhão</div>
+            </div>
+            <div class="device-screen p-3 space-y-2 text-left">
+              <div class="bg-white rounded-lg p-2.5 border border-border-soft flex items-center gap-2.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-pos flex-shrink-0"></span>
+                <div class="flex-1"><div class="text-[13px] font-semibold text-navy-900">Óleo do motor</div><div class="text-[10px] text-ink-500">Faltam 1.200 km</div></div>
+                <span class="text-[10px] font-bold text-pos">EM DIA</span>
+              </div>
+              <div class="bg-white rounded-lg p-2.5 border border-border-soft flex items-center gap-2.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-warn flex-shrink-0"></span>
+                <div class="flex-1"><div class="text-[13px] font-semibold text-navy-900">Filtro de ar</div><div class="text-[10px] text-ink-500">Vence em 5 dias</div></div>
+                <span class="text-[10px] font-bold text-warn">ATENÇÃO</span>
+              </div>
+              <div class="bg-white rounded-lg p-2.5 border border-neg/30 bg-neg/[0.04] flex items-center gap-2.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-neg flex-shrink-0"></span>
+                <div class="flex-1"><div class="text-[13px] font-semibold text-navy-900">Pneus dianteiros</div><div class="text-[10px] text-neg">Vencido há 800 km</div></div>
+                <span class="text-[10px] font-bold text-neg">VENCIDO</span>
+              </div>
+              <div class="bg-white rounded-lg p-2.5 border border-border-soft flex items-center gap-2.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-pos flex-shrink-0"></span>
+                <div class="flex-1"><div class="text-[13px] font-semibold text-navy-900">Filtro de combustível</div><div class="text-[10px] text-ink-500">Faltam 3.400 km</div></div>
+                <span class="text-[10px] font-bold text-pos">EM DIA</span>
+              </div>
+            </div>
           </div>
-          <h3 class="mt-5 text-xl font-bold text-ink-900">Dashboard simples</h3>
-          <p class="mt-2 text-ink-700 leading-relaxed">Sem DRE, sem fluxo de caixa, sem "EBITDA". Só o que importa: quanto entrou, quanto saiu, quanto sobrou.</p>
+          <h3 class="mt-6 text-lg font-bold text-ink-900">Manutenção sem susto</h3>
+          <p class="mt-2 text-ink-700 leading-relaxed text-sm max-w-xs">Óleo, filtros, pneu, revisão. Alerta por km ou por dias, com cor: <span class="text-pos font-semibold">verde</span> em dia, <span class="text-neg font-semibold">vermelho</span> vencido.</p>
         </div>
 
-        <div class="bg-bg-soft border border-border-soft rounded-2xl p-7">
-          <div class="w-12 h-12 rounded-xl bg-brand-gold/20 flex items-center justify-center text-brand-gold-dark">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <!-- TELA 4: GANHOS (rosca) -->
+        <div class="flex flex-col items-center text-center">
+          <div class="device relative w-full max-w-[290px]">
+            <div class="device-notch"></div>
+            <div class="app-topbar px-4 pt-6 pb-3 text-white text-left">
+              <div class="text-sm font-semibold">💰 Ganhos</div>
+              <div class="text-[10px] text-white/60">Julho 2026</div>
+            </div>
+            <div class="device-screen p-3 text-left">
+              <div class="bg-white rounded-xl p-4 border border-border-soft text-center mb-2">
+                <div class="text-2xl font-extrabold text-pos">R$ 17.350</div>
+                <div class="text-[10px] text-ink-500">total de receitas do mês</div>
+              </div>
+              <div class="bg-white rounded-xl p-3 border border-border-soft flex items-center gap-3">
+                <div class="relative w-20 h-20 flex-shrink-0">
+                  <div class="absolute inset-0 rounded-full donut-ganhos"></div>
+                  <div class="absolute inset-[9px] bg-white rounded-full flex items-center justify-center text-[11px] font-bold text-navy-900">17,3k</div>
+                </div>
+                <div class="flex-1 space-y-1.5 text-[11px]">
+                  <div class="flex justify-between"><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-brand-gold"></span>Frete avulso</span><span class="font-semibold">60%</span></div>
+                  <div class="flex justify-between"><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-navy"></span>Diárias</span><span class="font-semibold">25%</span></div>
+                  <div class="flex justify-between"><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-slate-400"></span>Contrato</span><span class="font-semibold">15%</span></div>
+                </div>
+              </div>
+            </div>
           </div>
-          <h3 class="mt-5 text-xl font-bold text-ink-900">Cobrança transparente</h3>
-          <p class="mt-2 text-ink-700 leading-relaxed">Mensal via cartão recorrente (R$ 29,90) ou anual via PIX com 17% de desconto (R$ 299). Sem fidelidade, cancela quando quiser.</p>
+          <h3 class="mt-6 text-lg font-bold text-ink-900">Ganhos — de onde vem o dinheiro</h3>
+          <p class="mt-2 text-ink-700 leading-relaxed text-sm max-w-xs">Gráfico de rosca com a composição da sua receita: frete avulso, diárias, contrato. Bate o olho e entende.</p>
         </div>
 
-        <div class="bg-bg-soft border border-border-soft rounded-2xl p-7">
-          <div class="w-12 h-12 rounded-xl bg-brand-gold/20 flex items-center justify-center text-brand-gold-dark">
+        <!-- TELA 5: DESPESAS (rosca) -->
+        <div class="flex flex-col items-center text-center">
+          <div class="device relative w-full max-w-[290px]">
+            <div class="device-notch"></div>
+            <div class="app-topbar px-4 pt-6 pb-3 text-white text-left">
+              <div class="text-sm font-semibold">💸 Despesas</div>
+              <div class="text-[10px] text-white/60">Julho 2026</div>
+            </div>
+            <div class="device-screen p-3 text-left">
+              <div class="bg-white rounded-xl p-4 border border-border-soft text-center mb-2">
+                <div class="text-2xl font-extrabold text-neg">R$ 6.727</div>
+                <div class="text-[10px] text-ink-500">total de custos do mês</div>
+              </div>
+              <div class="bg-white rounded-xl p-3 border border-border-soft flex items-center gap-3">
+                <div class="relative w-20 h-20 flex-shrink-0">
+                  <div class="absolute inset-0 rounded-full donut-despesas"></div>
+                  <div class="absolute inset-[9px] bg-white rounded-full flex items-center justify-center text-[11px] font-bold text-navy-900">6,7k</div>
+                </div>
+                <div class="flex-1 space-y-1 text-[11px]">
+                  <div class="flex justify-between"><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-navy"></span>Combustível</span><span class="font-semibold">62%</span></div>
+                  <div class="flex justify-between"><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-brand-gold"></span>Manutenção</span><span class="font-semibold">14%</span></div>
+                  <div class="flex justify-between"><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-slate-500"></span>Pedágio</span><span class="font-semibold">12%</span></div>
+                  <div class="flex justify-between"><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-slate-300"></span>Outros</span><span class="font-semibold">12%</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3 class="mt-6 text-lg font-bold text-ink-900">Despesas — pra onde ele foi</h3>
+          <p class="mt-2 text-ink-700 leading-relaxed text-sm max-w-xs">A rosca mostra o que come seu dinheiro: combustível, manutenção, pedágio. Você vê o furo antes que ele cresça.</p>
+        </div>
+
+        <!-- TELA 6: RELATÓRIOS -->
+        <div class="flex flex-col items-center text-center">
+          <div class="device relative w-full max-w-[290px]">
+            <div class="device-notch"></div>
+            <div class="app-topbar px-4 pt-6 pb-3 text-white text-left">
+              <div class="text-sm font-semibold">📈 Relatórios</div>
+              <div class="text-[10px] text-white/60">Evolução mês a mês</div>
+            </div>
+            <div class="device-screen p-3 text-left">
+              <div class="bg-white rounded-xl p-3 border border-border-soft">
+                <div class="flex items-center justify-between text-[10px] text-ink-500 mb-2">
+                  <span>Receita vs custo</span>
+                  <span class="flex items-center gap-2"><span class="flex items-center gap-1"><span class="w-2 h-2 rounded bg-pos"></span>receita</span><span class="flex items-center gap-1"><span class="w-2 h-2 rounded bg-neg"></span>custo</span></span>
+                </div>
+                <div class="flex items-end justify-between gap-2 h-28">
+                  <div class="flex-1 flex items-end justify-center gap-1 h-full"><div class="bar bg-pos w-2.5" style="height:55%"></div><div class="bar bg-neg w-2.5" style="height:38%"></div></div>
+                  <div class="flex-1 flex items-end justify-center gap-1 h-full"><div class="bar bg-pos w-2.5" style="height:70%"></div><div class="bar bg-neg w-2.5" style="height:30%"></div></div>
+                  <div class="flex-1 flex items-end justify-center gap-1 h-full"><div class="bar bg-pos w-2.5" style="height:60%"></div><div class="bar bg-neg w-2.5" style="height:42%"></div></div>
+                  <div class="flex-1 flex items-end justify-center gap-1 h-full"><div class="bar bg-pos w-2.5" style="height:92%"></div><div class="bar bg-neg w-2.5" style="height:36%"></div></div>
+                </div>
+                <div class="flex justify-between text-[9px] text-ink-500 mt-1"><span>Abr</span><span>Mai</span><span>Jun</span><span class="font-bold text-navy-900">Jul</span></div>
+              </div>
+              <div class="grid grid-cols-2 gap-2 mt-2">
+                <div class="bg-white rounded-lg p-2 border border-border-soft"><div class="text-[9px] text-ink-500">Consumo</div><div class="text-sm font-bold text-navy-900">2,8 km/L <span class="text-pos text-[10px]">↑</span></div></div>
+                <div class="bg-white rounded-lg p-2 border border-border-soft"><div class="text-[9px] text-ink-500">Custo/km</div><div class="text-sm font-bold text-navy-900">R$ 3,90 <span class="text-pos text-[10px]">↓</span></div></div>
+              </div>
+            </div>
+          </div>
+          <h3 class="mt-6 text-lg font-bold text-ink-900">Relatórios — compare seus meses</h3>
+          <p class="mt-2 text-ink-700 leading-relaxed text-sm max-w-xs">Receita contra custo, evolução do consumo e do custo por km, mês a mês. Vê se tá melhorando sem achismo.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SOLUÇÃO / RECURSOS ============== -->
+  <section id="solucao" class="bg-bg-soft border-y border-border-soft">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold text-brand-gold-dark uppercase tracking-wider">Os recursos</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-ink-900 leading-tight">Tudo que você precisa pra parar de rodar no escuro.</h2>
+        <p class="mt-4 text-lg text-ink-700">Sem termo contábil, sem planilha confusa. Linguagem de quem roda na estrada.</p>
+      </div>
+      <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-bg-card border border-border-soft rounded-2xl p-7">
+          <div class="w-12 h-12 rounded-xl bg-navy/10 flex items-center justify-center text-navy text-2xl">🦅</div>
+          <h3 class="mt-5 text-xl font-bold text-ink-900">Jaime no WhatsApp</h3>
+          <p class="mt-2 text-ink-700 leading-relaxed">Lança frete e despesa mandando mensagem. Sem abrir o app, sem formulário. Seu assistente no bolso.</p>
+        </div>
+        <div class="bg-bg-card border border-border-soft rounded-2xl p-7">
+          <div class="w-12 h-12 rounded-xl bg-navy/10 flex items-center justify-center text-navy">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h3 class="mt-5 text-xl font-bold text-ink-900">Simulador de frete</h3>
+          <p class="mt-2 text-ink-700 leading-relaxed">Antes de aceitar, digita KM, valor e custo. O app diz na hora se vale a pena — com lucro, margem e ROI.</p>
+        </div>
+        <div class="bg-bg-card border border-border-soft rounded-2xl p-7">
+          <div class="w-12 h-12 rounded-xl bg-navy/10 flex items-center justify-center text-navy">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          </div>
+          <h3 class="mt-5 text-xl font-bold text-ink-900">Lucro do mês na hora</h3>
+          <p class="mt-2 text-ink-700 leading-relaxed">Resultado em destaque, meta, margem, consumo em km/L, custo e lucro por km. Tudo num olhar.</p>
+        </div>
+        <div class="bg-bg-card border border-border-soft rounded-2xl p-7">
+          <div class="w-12 h-12 rounded-xl bg-navy/10 flex items-center justify-center text-navy">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
           </div>
-          <h3 class="mt-5 text-xl font-bold text-ink-900">Manutenção sem susto</h3>
-          <p class="mt-2 text-ink-700 leading-relaxed">Cadastra a troca de óleo, filtro, pneu — o app avisa quando tá chegando a hora. Sem caderninho na luva do caminhão.</p>
+          <h3 class="mt-5 text-xl font-bold text-ink-900">Manutenção com alerta</h3>
+          <p class="mt-2 text-ink-700 leading-relaxed">Óleo, filtro, pneu — o app avisa por km ou por dias, com cor. Verde em dia, vermelho vencido. Sem caderninho na luva.</p>
         </div>
-
-        <div class="bg-bg-soft border border-border-soft rounded-2xl p-7">
-          <div class="w-12 h-12 rounded-xl bg-brand-gold/20 flex items-center justify-center text-brand-gold-dark">
+        <div class="bg-bg-card border border-border-soft rounded-2xl p-7">
+          <div class="w-12 h-12 rounded-xl bg-navy/10 flex items-center justify-center text-navy">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 9l-5 5-3-3-4 4"/></svg>
+          </div>
+          <h3 class="mt-5 text-xl font-bold text-ink-900">Relatórios mês a mês</h3>
+          <p class="mt-2 text-ink-700 leading-relaxed">Receita contra custo, evolução do consumo e do custo por km. Vê se o mês foi melhor que o anterior.</p>
+        </div>
+        <div class="bg-bg-card border border-border-soft rounded-2xl p-7">
+          <div class="w-12 h-12 rounded-xl bg-navy/10 flex items-center justify-center text-navy">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
           </div>
           <h3 class="mt-5 text-xl font-bold text-ink-900">Alertas que importam</h3>
-          <p class="mt-2 text-ink-700 leading-relaxed">O app avisa quando sua diária dá prejuízo, quando uma manutenção tá chegando, quando algo foge do padrão. Direto na tela, sem precisar caçar nos relatórios.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============== VEJA POR DENTRO ============== -->
-  <section class="py-20 lg:py-24">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center max-w-2xl mx-auto">
-        <p class="text-sm font-bold tracking-wider uppercase text-brand-gold-dark">
-          Veja por dentro
-        </p>
-        <h2 class="mt-3 text-4xl lg:text-5xl font-bold text-ink-900 leading-tight">
-          Simples na tela. Direto no bolso.
-        </h2>
-        <p class="mt-4 text-lg text-ink-700">
-          Sem dashboards que parecem painel de avião. Tudo no celular, na sua mão.
-        </p>
-      </div>
-
-      <div class="mt-12 grid md:grid-cols-2 gap-10">
-        <div class="text-center">
-          <div class="mx-auto rounded-[2rem] border-[8px] border-ink-900 bg-ink-900 shadow-xl overflow-hidden" style="max-width: 360px;">
-            <img
-              src="assets/screenshot-dashboard-top.png"
-              alt="Dashboard mostrando lucro líquido do mês, receita, despesas e indicadores"
-              class="block w-full h-auto"
-              loading="lazy"
-            />
-          </div>
-          <h3 class="mt-6 text-lg font-bold text-ink-900">Lucro do mês na hora</h3>
-          <p class="mt-2 text-ink-700 leading-relaxed text-sm">
-            Quanto entrou, quanto saiu, quanto sobrou. Sem letra miúda.
-          </p>
-        </div>
-
-        <div class="text-center">
-          <div class="mx-auto rounded-[2rem] border-[8px] border-ink-900 bg-ink-900 shadow-xl overflow-hidden" style="max-width: 360px;">
-            <img
-              src="assets/screenshot-ganhos.png"
-              alt="Simulador de frete avaliando se vale a pena aceitar"
-              class="block w-full h-auto"
-              loading="lazy"
-            />
-          </div>
-          <h3 class="mt-6 text-lg font-bold text-ink-900">Aceita ou recusa?</h3>
-          <p class="mt-2 text-ink-700 leading-relaxed text-sm">
-            Digita destino, KM e valor. O app fala se o frete vale ou não. Sem chute.
-          </p>
-        </div>
-
-        <div class="text-center">
-          <div class="mx-auto rounded-[2rem] border-[8px] border-ink-900 bg-ink-900 shadow-xl overflow-hidden" style="max-width: 360px;">
-            <img
-              src="assets/screenshot-manutencao.png"
-              alt="Tela de Manutenção com óleo, filtros, pneu e revisão"
-              class="block w-full h-auto"
-              loading="lazy"
-            />
-          </div>
-          <h3 class="mt-6 text-lg font-bold text-ink-900">Manutenção no controle</h3>
-          <p class="mt-2 text-ink-700 leading-relaxed text-sm">
-            Óleo, filtro, pneu, revisão. O app avisa quando tá chegando a hora.
-          </p>
-        </div>
-
-        <div class="text-center">
-          <div class="mx-auto rounded-[2rem] border-[8px] border-ink-900 bg-ink-900 shadow-xl overflow-hidden" style="max-width: 360px;">
-            <img
-              src="assets/screenshot-relatorios.png"
-              alt="Relatórios com gráficos comparativos de receita versus custo"
-              class="block w-full h-auto"
-              loading="lazy"
-            />
-          </div>
-          <h3 class="mt-6 text-lg font-bold text-ink-900">Compare seus meses</h3>
-          <p class="mt-2 text-ink-700 leading-relaxed text-sm">
-            Mês passado foi melhor que esse? O gráfico mostra. Sem achismo.
-          </p>
+          <p class="mt-2 text-ink-700 leading-relaxed">O app avisa quando a diária dá prejuízo, quando uma manutenção tá chegando, quando algo foge do padrão.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============== COMO FUNCIONA ============== -->
-  <section class="bg-ink-900 text-white">
+  <section class="bg-navy-900 text-white">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
       <div class="max-w-2xl">
         <p class="text-sm font-semibold text-brand-gold uppercase tracking-wider">Como funciona</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold leading-tight">
-          Em 3 passos, você sai do escuro.
-        </h2>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold leading-tight">Em 3 passos, você sai do escuro.</h2>
       </div>
-
       <div class="mt-12 grid md:grid-cols-3 gap-6">
         <div class="bg-white/5 border border-white/10 rounded-2xl p-7">
           <div class="text-5xl font-extrabold text-brand-gold leading-none">1</div>
           <h3 class="mt-4 text-xl font-bold text-white">Cadastra grátis em 1 minuto</h3>
-          <p class="mt-2 text-white/70 leading-relaxed">Nome, e-mail, dados do veículo. Pronto. Sem cartão, sem burocracia.</p>
+          <p class="mt-2 text-white/70 leading-relaxed">Nome, WhatsApp, dados do caminhão. Pronto. Sem cartão, sem burocracia.</p>
         </div>
-
         <div class="bg-white/5 border border-white/10 rounded-2xl p-7">
           <div class="text-5xl font-extrabold text-brand-gold leading-none">2</div>
-          <h3 class="mt-4 text-xl font-bold text-white">Lança suas viagens e abastecimentos</h3>
-          <p class="mt-2 text-white/70 leading-relaxed">Direto do celular, no posto, na pausa do almoço. Cada viagem leva uns 20 segundos.</p>
+          <h3 class="mt-4 text-xl font-bold text-white">Manda pro Jaime no WhatsApp</h3>
+          <p class="mt-2 text-white/70 leading-relaxed">"Recebi 4200 de frete", "abasteci 780". O Jaime lança pra você. Ou registra você mesmo no app — como preferir.</p>
         </div>
-
         <div class="bg-white/5 border border-white/10 rounded-2xl p-7">
           <div class="text-5xl font-extrabold text-brand-gold leading-none">3</div>
-          <h3 class="mt-4 text-xl font-bold text-white">Vê seu lucro real no dashboard</h3>
-          <p class="mt-2 text-white/70 leading-relaxed">A qualquer hora, abre o app e sabe se está no azul ou no vermelho. Sem surpresa no fim do mês.</p>
+          <h3 class="mt-4 text-xl font-bold text-white">Vê seu lucro real no painel</h3>
+          <p class="mt-2 text-white/70 leading-relaxed">A qualquer hora, abre o app e sabe se está no verde ou no vermelho. Sem surpresa no fim do mês.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============== PREÇO ============== -->
-  <section id="preco" class="bg-bg-card">
+  <!-- ============== PREÇO / PLANOS ============== -->
+  <!-- Valores reais (Bronze/Prata/Ouro). Diferencial: nº de motoristas na equipe.
+       Todos incluem o Jaime — agente de lançamento via WhatsApp. -->
+  <section id="preco" class="bg-bg-card" x-data="{ anual: false }">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
       <div class="max-w-2xl mx-auto text-center">
-        <p class="text-sm font-semibold text-brand-gold-dark uppercase tracking-wider">Preço</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-ink-900 leading-tight">
-          Comece de graça. Cresça quando quiser.
-        </h2>
+        <p class="text-sm font-semibold text-brand-gold-dark uppercase tracking-wider">Planos</p>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-ink-900 leading-tight">Escolha pelo tamanho da sua equipe.</h2>
+        <p class="mt-4 text-lg text-ink-700">Do caminhoneiro sozinho à transportadora com equipe de motoristas. <strong class="text-navy">O Jaime está em todos os planos.</strong></p>
       </div>
 
-      <div class="mt-12 grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-        <!-- Plano Grátis -->
+      <!-- selo Jaime em todos -->
+      <div class="mt-8 flex justify-center">
+        <div class="inline-flex items-center gap-2 bg-navy/8 border border-navy/15 rounded-full px-4 py-2 text-sm font-semibold text-navy">
+          <span>🦅</span> Todo plano inclui o Jaime — agente de lançamento via WhatsApp (áudio e texto)
+        </div>
+      </div>
+
+      <!-- Toggle Mensal / Anual -->
+      <div class="mt-6 flex flex-col items-center gap-2">
+        <div class="inline-flex items-center bg-bg-soft border border-border-soft rounded-full p-1 text-sm font-semibold">
+          <button @click="anual = false" :class="!anual ? 'bg-white text-ink-900 shadow-sm' : 'text-ink-500'" class="px-5 py-2 rounded-full transition">Mensal</button>
+          <button @click="anual = true" :class="anual ? 'bg-white text-ink-900 shadow-sm' : 'text-ink-500'" class="px-5 py-2 rounded-full transition">Anual</button>
+        </div>
+        <span class="text-xs font-semibold text-pos" x-show="anual" x-transition>💚 Pague 10 meses, use 12 · dá pra pagar no PIX</span>
+      </div>
+
+      <div class="mt-10 grid md:grid-cols-3 gap-6 items-stretch">
+
+        <!-- PLANO 1: BRONZE -->
         <div class="bg-bg-card border border-border-soft rounded-2xl p-8 flex flex-col">
-          <h3 class="text-xl font-bold text-ink-900">Grátis</h3>
-          <p class="mt-2 text-ink-500 text-sm">Experimente 7 dias com tudo liberado. Sem cartão, sem compromisso.</p>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full" style="background:#cd7f32"></span>
+            <h3 class="text-xl font-bold text-ink-900">Bronze</h3>
+          </div>
+          <p class="mt-2 text-ink-500 text-sm">Pro caminhoneiro autônomo que roda sozinho.</p>
+          <div class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-navy bg-navy/5 rounded-lg px-3 py-2 w-fit">👤 Só você (1 motorista)</div>
           <div class="mt-6">
-            <span class="text-4xl font-extrabold text-ink-900">R$ 0</span>
-            <span class="text-ink-500">/mês</span>
+            <div x-show="!anual">
+              <span class="text-4xl font-extrabold text-ink-900">R$ 29,90</span><span class="text-ink-500">/mês</span>
+              <p class="text-xs text-ink-500 mt-1">no cartão, cobrança mensal</p>
+            </div>
+            <div x-show="anual" x-transition style="display:none">
+              <span class="text-4xl font-extrabold text-ink-900">R$ 299</span><span class="text-ink-500">/ano</span>
+              <p class="text-xs text-ink-500 mt-1">R$ 24,90/mês equiv. · PIX ou cartão</p>
+            </div>
           </div>
           <ul class="mt-6 space-y-3 text-sm text-ink-700 flex-1">
-            <li class="flex items-start gap-3">
-              <svg class="text-success mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>7 dias com TODAS as features do Premium pra testar</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="text-success mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Lançamentos ilimitados de viagens e abastecimentos</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="text-success mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Dashboard com saldo do mês</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="text-success mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Análise didática em texto</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="text-success mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Suporte via WhatsApp</span>
-            </li>
+            <li class="flex items-start gap-3"><svg class="text-pos mt-0.5 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Jaime no WhatsApp</strong> — lança por áudio ou texto</span></li>
+            <li class="flex items-start gap-3"><svg class="text-pos mt-0.5 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Dashboard, simulador de frete e manutenção</span></li>
+            <li class="flex items-start gap-3"><svg class="text-pos mt-0.5 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Ganhos, despesas e relatórios mês a mês</span></li>
           </ul>
-          <a href="https://app.gestaonamao.app.br/login" class="mt-8 inline-flex items-center justify-center bg-bg-soft hover:bg-border-soft text-ink-900 font-semibold px-5 py-3 rounded-lg border border-border-soft transition">
-            Começar grátis
-          </a>
+          <a href="https://app.gestaonamao.app.br/login" class="mt-8 inline-flex items-center justify-center bg-bg-soft hover:bg-border-soft text-ink-900 font-semibold px-5 py-3 rounded-lg border border-border-soft transition">Assinar Bronze</a>
         </div>
 
-        <!-- Plano Premium -->
-        <div class="relative bg-ink-900 text-white rounded-2xl p-8 flex flex-col ring-2 ring-brand-gold">
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-gold text-ink-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-            Mais escolhido
+        <!-- PLANO 2: PRATA (destaque) -->
+        <div class="relative bg-navy-900 text-white rounded-2xl p-8 flex flex-col ring-2 ring-brand-gold md:-mt-4">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-gold text-navy-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Mais escolhido</div>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-slate-300"></span>
+            <h3 class="text-xl font-bold text-white">Prata</h3>
           </div>
-          <div class="inline-block text-[10px] font-bold px-2 py-1 rounded-full bg-red-500/20 text-red-300 uppercase tracking-wider mb-2">
-            🔥 Preço de lançamento · por tempo limitado
-          </div>
-          <h3 class="text-xl font-bold text-white">Premium</h3>
-          <p class="mt-2 text-white/60 text-sm">Pra quem leva o caminhão a sério e quer parar de chutar.</p>
-          <div class="mt-6 space-y-3">
-            <div>
-              <div class="flex items-baseline gap-2">
-                <span class="text-4xl font-bold text-brand-gold">R$ 29,90</span>
-                <span class="text-base text-white/70">/mês</span>
-              </div>
-              <p class="text-xs text-white/60 mt-1">no plano mensal, via cartão</p>
+          <p class="mt-2 text-white/60 text-sm">Pra transportadora pequena, com equipe.</p>
+          <div class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-navy-900 bg-brand-gold rounded-lg px-3 py-2 w-fit">👥 Você + 2 motoristas</div>
+          <div class="mt-6">
+            <div x-show="!anual">
+              <span class="text-4xl font-extrabold text-brand-gold">R$ 74,90</span><span class="text-white/70">/mês</span>
+              <p class="text-xs text-white/50 mt-1">no cartão, cobrança mensal</p>
             </div>
-
-            <div class="border-t border-white/10"></div>
-
-            <div class="rounded-xl bg-brand-gold/10 border border-brand-gold/30 p-4">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-xs uppercase tracking-wider text-brand-gold font-bold">Plano Anual · PIX</p>
-                  <div class="flex items-baseline gap-2 mt-1">
-                    <span class="text-2xl font-bold text-brand-gold">R$ 24,90</span>
-                    <span class="text-sm text-white/70">/mês equiv.</span>
-                  </div>
-                  <p class="text-xs text-white/70 mt-1">R$ 299/ano via PIX. Renova quando quiser.</p>
-                </div>
-                <div class="text-right">
-                  <span class="inline-block text-[10px] font-bold px-2 py-1 rounded-full bg-brand-gold text-ink-900 uppercase tracking-wider">
-                    -17%
-                  </span>
-                  <p class="text-xs text-brand-gold mt-1 font-bold">
-                    Economize<br/>R$ 60,00/ano
-                  </p>
-                </div>
-              </div>
+            <div x-show="anual" x-transition style="display:none">
+              <span class="text-4xl font-extrabold text-brand-gold">R$ 749</span><span class="text-white/70">/ano</span>
+              <p class="text-xs text-white/50 mt-1">R$ 62,42/mês equiv. · PIX ou cartão</p>
             </div>
           </div>
           <ul class="mt-6 space-y-3 text-sm text-white/90 flex-1">
-            <li class="flex items-start gap-3">
-              <svg class="text-brand-gold mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Tudo do plano Grátis, sem limites</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="text-brand-gold mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span><strong class="text-white">KM Morto</strong> — relatório completo de KM rodado sem receita</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="text-brand-gold mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span><strong class="text-white">Análise didática</strong> em texto, mês a mês</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="text-brand-gold mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Histórico ilimitado dos meses anteriores</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="text-brand-gold mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Mensal no cartão recorrente ou anual via PIX (-17%)</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="text-brand-gold mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Cancela quando quiser, sem multa</span>
-            </li>
+            <li class="flex items-start gap-3"><svg class="text-brand-gold mt-0.5 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Tudo do Bronze, pra <strong class="text-white">3 motoristas</strong></span></li>
+            <li class="flex items-start gap-3"><svg class="text-brand-gold mt-0.5 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Cada motorista lança pelo <strong class="text-white">Jaime no próprio WhatsApp</strong></span></li>
+            <li class="flex items-start gap-3"><svg class="text-brand-gold mt-0.5 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Resultado consolidado da frota + por motorista</span></li>
           </ul>
-          <a href="#app" class="mt-8 inline-flex items-center justify-center bg-brand-gold hover:bg-brand-gold-dark text-ink-900 font-bold px-5 py-3 rounded-lg transition">
-            Assinar Premium
-          </a>
+          <a href="https://app.gestaonamao.app.br/login" class="mt-8 inline-flex items-center justify-center bg-brand-gold hover:bg-brand-gold-dark text-navy-900 font-bold px-5 py-3 rounded-lg transition">Assinar Prata</a>
         </div>
+
+        <!-- PLANO 3: OURO -->
+        <div class="bg-bg-card border border-border-soft rounded-2xl p-8 flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-brand-gold"></span>
+            <h3 class="text-xl font-bold text-ink-900">Ouro</h3>
+          </div>
+          <p class="mt-2 text-ink-500 text-sm">Pra transportadora com equipe maior.</p>
+          <div class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-navy bg-navy/5 rounded-lg px-3 py-2 w-fit">🚛 Você + 4 motoristas</div>
+          <div class="mt-6">
+            <div x-show="!anual">
+              <span class="text-4xl font-extrabold text-ink-900">R$ 129,90</span><span class="text-ink-500">/mês</span>
+              <p class="text-xs text-ink-500 mt-1">no cartão, cobrança mensal</p>
+            </div>
+            <div x-show="anual" x-transition style="display:none">
+              <span class="text-4xl font-extrabold text-ink-900">R$ 1.299</span><span class="text-ink-500">/ano</span>
+              <p class="text-xs text-ink-500 mt-1">R$ 108,25/mês equiv. · PIX ou cartão</p>
+            </div>
+          </div>
+          <ul class="mt-6 space-y-3 text-sm text-ink-700 flex-1">
+            <li class="flex items-start gap-3"><svg class="text-pos mt-0.5 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Tudo do Prata, pra <strong>5 motoristas</strong></span></li>
+            <li class="flex items-start gap-3"><svg class="text-pos mt-0.5 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Visão por motorista e da frota inteira</span></li>
+            <li class="flex items-start gap-3"><svg class="text-pos mt-0.5 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Suporte prioritário no WhatsApp</span></li>
+          </ul>
+          <a href="https://app.gestaonamao.app.br/login" class="mt-8 inline-flex items-center justify-center bg-bg-soft hover:bg-border-soft text-ink-900 font-semibold px-5 py-3 rounded-lg border border-border-soft transition">Assinar Ouro</a>
+        </div>
+
       </div>
+      <p class="mt-8 text-center text-sm text-ink-500">Comece com <strong class="text-ink-900">7 dias grátis</strong> (até 30 lançamentos), sem cartão. Sem fidelidade, cancela quando quiser.</p>
     </div>
   </section>
 
@@ -611,42 +881,28 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
       <div class="max-w-2xl">
         <p class="text-sm font-semibold text-brand-gold-dark uppercase tracking-wider">Por que o Gestão na Mão</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-ink-900 leading-tight">
-          Sem letra miúda, sem pegadinha.
-        </h2>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-ink-900 leading-tight">Sem letra miúda, sem pegadinha.</h2>
       </div>
-
       <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="bg-bg-card border border-border-soft rounded-xl p-6">
-          <div class="w-10 h-10 rounded-lg bg-success/10 flex items-center justify-center text-success">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
+          <div class="w-10 h-10 rounded-lg bg-pos/10 flex items-center justify-center text-pos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
           <h3 class="mt-4 font-bold text-ink-900">Cancelamento livre</h3>
           <p class="mt-2 text-sm text-ink-700 leading-relaxed">Cancela com 1 clique, sem multa, sem fidelidade.</p>
         </div>
-
         <div class="bg-bg-card border border-border-soft rounded-xl p-6">
-          <div class="w-10 h-10 rounded-lg bg-success/10 flex items-center justify-center text-success">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
+          <div class="w-10 h-10 rounded-lg bg-pos/10 flex items-center justify-center text-pos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           <h3 class="mt-4 font-bold text-ink-900">Dados seguros</h3>
-          <p class="mt-2 text-sm text-ink-700 leading-relaxed">Suas viagens e abastecimentos só ficam com você. Sem revenda, sem propaganda.</p>
+          <p class="mt-2 text-sm text-ink-700 leading-relaxed">Suas viagens e despesas só ficam com você. Sem revenda, sem propaganda.</p>
         </div>
-
         <div class="bg-bg-card border border-border-soft rounded-xl p-6">
-          <div class="w-10 h-10 rounded-lg bg-success/10 flex items-center justify-center text-success">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-          </div>
+          <div class="w-10 h-10 rounded-lg bg-pos/10 flex items-center justify-center text-pos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
           <h3 class="mt-4 font-bold text-ink-900">Suporte humano</h3>
-          <p class="mt-2 text-sm text-ink-700 leading-relaxed">Dúvida? Manda mensagem no WhatsApp. Quem responde é gente, não robô.</p>
+          <p class="mt-2 text-sm text-ink-700 leading-relaxed">Dúvida? Manda no WhatsApp. Quem responde é gente, não robô.</p>
         </div>
-
         <div class="bg-bg-card border border-border-soft rounded-xl p-6">
-          <div class="w-10 h-10 rounded-lg bg-success/10 flex items-center justify-center text-success">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          </div>
-          <h3 class="mt-4 font-bold text-ink-900">Sem fidelidade</h3>
-          <p class="mt-2 text-sm text-ink-700 leading-relaxed">Mês a mês, paga só enquanto estiver usando.</p>
+          <div class="w-10 h-10 rounded-lg bg-pos/10 flex items-center justify-center text-pos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <h3 class="mt-4 font-bold text-ink-900">Feito pra estrada</h3>
+          <p class="mt-2 text-sm text-ink-700 leading-relaxed">Linguagem de caminhoneiro, nada de corporativês. Simples de mexer.</p>
         </div>
       </div>
     </div>
@@ -657,92 +913,61 @@
     <div class="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
       <div class="text-center">
         <p class="text-sm font-semibold text-brand-gold-dark uppercase tracking-wider">FAQ</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-ink-900 leading-tight">
-          Perguntas que aparecem direto.
-        </h2>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-ink-900 leading-tight">Perguntas que aparecem direto.</h2>
       </div>
-
       <div class="mt-12 space-y-3">
         <div class="bg-bg-soft rounded-2xl border border-border-soft overflow-hidden" x-data="{ open: false }">
           <button @click="open = !open" class="w-full flex items-center justify-between p-5 text-left">
-            <span class="font-semibold text-ink-900">Funciona no meu celular?</span>
+            <span class="font-semibold text-ink-900">Como funciona o Jaime no WhatsApp?</span>
             <span class="text-2xl text-ink-700 transition-transform" :class="{ 'rotate-45': open }">+</span>
           </button>
-          <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="px-5 pb-5 text-ink-700 leading-relaxed" style="display: none;">
-            Funciona em qualquer celular com internet — Android, iPhone, antigo, novo, não importa. O Gestão na Mão é um site otimizado pra celular. Abre no navegador (Chrome, Safari), não precisa baixar nada da loja. Funciona em 4G, 5G ou WiFi.
+          <div x-show="open" x-transition class="px-5 pb-5 text-ink-700 leading-relaxed" style="display:none">
+            O Jaime é o assistente do Gestão na Mão dentro do WhatsApp. Você manda um <strong>áudio ou uma mensagem</strong> normal — tipo "recebi 4200 de frete de SP pra Curitiba" ou "abasteci 780" — e ele entende e lança o frete ou a despesa pra você, sem precisar abrir o app nem preencher formulário. Ele também te responde com o resultado atualizado do mês. Serve muito na estrada: você fala o áudio com a mão no volante e ele registra.
           </div>
         </div>
-
         <div class="bg-bg-soft rounded-2xl border border-border-soft overflow-hidden" x-data="{ open: false }">
           <button @click="open = !open" class="w-full flex items-center justify-between p-5 text-left">
-            <span class="font-semibold text-ink-900">Preciso instalar app na loja (Play Store / App Store)?</span>
+            <span class="font-semibold text-ink-900">O simulador de frete diz mesmo se vale a pena?</span>
             <span class="text-2xl text-ink-700 transition-transform" :class="{ 'rotate-45': open }">+</span>
           </button>
-          <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="px-5 pb-5 text-ink-700 leading-relaxed" style="display: none;">
-            Não precisa. É um site, abre direto no navegador. Você pode salvar o atalho na tela inicial do celular se quiser (parece um app), mas não tem nada pra baixar.
+          <div x-show="open" x-transition class="px-5 pb-5 text-ink-700 leading-relaxed" style="display:none">
+            Diz. Você coloca o KM da viagem, o valor que estão oferecendo e o custo estimado. Na hora ele calcula o lucro, a margem e o ROI, e mostra um selo verde "VALE A PENA" ou avisa se o frete vai te dar pouco (ou prejuízo). Assim você aceita ou recusa com número na mão, não no chute.
           </div>
         </div>
-
-        <div
-          class="bg-bg-soft rounded-2xl border border-border-soft overflow-hidden"
-          x-data="{ open: false }"
-        >
-          <button
-            @click="open = !open"
-            class="w-full flex items-center justify-between p-5 text-left"
-          >
-            <span class="font-semibold text-ink-900">Preciso de internet o tempo todo pra usar?</span>
-            <span class="text-2xl text-ink-700 transition-transform" :class="{ 'rotate-45': open }">+</span>
-          </button>
-          <div
-            x-show="open"
-            x-transition:enter="transition ease-out duration-200"
-            x-transition:enter-start="opacity-0 -translate-y-2"
-            x-transition:enter-end="opacity-100 translate-y-0"
-            class="px-5 pb-5 text-ink-700 leading-relaxed"
-            style="display: none;"
-          >
-            Sim, o Gestão na Mão precisa de internet pra funcionar. A gente sabe que muito motorista roda em área de sombra, então a dica é: lança seus fretes e abastecimentos na pausa do almoço, no posto, ou em qualquer lugar com sinal. Cada lançamento leva ~20 segundos. Estamos estudando modo offline pra próximas versões.
-          </div>
-        </div>
-
         <div class="bg-bg-soft rounded-2xl border border-border-soft overflow-hidden" x-data="{ open: false }">
           <button @click="open = !open" class="w-full flex items-center justify-between p-5 text-left">
-            <span class="font-semibold text-ink-900">Como funciona o pagamento? Tem PIX e cartão?</span>
+            <span class="font-semibold text-ink-900">Serve pra transportadora com vários motoristas?</span>
             <span class="text-2xl text-ink-700 transition-transform" :class="{ 'rotate-45': open }">+</span>
           </button>
-          <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="px-5 pb-5 text-ink-700 leading-relaxed" style="display: none;">
-            No plano MENSAL (R$ 29,90), você paga via cartão de crédito com cobrança automática mensal — esse é o caminho mais prático pra não precisar lembrar de renovar. No plano ANUAL (R$ 299/ano), você paga via PIX uma vez direto no Mercado Pago e usa o ano todo. No fim do ano, você renova quando quiser, sem cobrança automática. Você economiza R$ 60 escolhendo o anual.
+          <div x-show="open" x-transition class="px-5 pb-5 text-ink-700 leading-relaxed" style="display:none">
+            Serve. Os planos se diferenciam justamente pelo número de motoristas na conta. Cada motorista lança pelo Jaime no próprio WhatsApp, e você vê o resultado consolidado da frota, além da visão por motorista. Escolha o plano pelo tamanho da sua operação.
           </div>
         </div>
-
+        <div class="bg-bg-soft rounded-2xl border border-border-soft overflow-hidden" x-data="{ open: false }">
+          <button @click="open = !open" class="w-full flex items-center justify-between p-5 text-left">
+            <span class="font-semibold text-ink-900">Funciona no meu celular? Preciso instalar da loja?</span>
+            <span class="text-2xl text-ink-700 transition-transform" :class="{ 'rotate-45': open }">+</span>
+          </button>
+          <div x-show="open" x-transition class="px-5 pb-5 text-ink-700 leading-relaxed" style="display:none">
+            Funciona em qualquer celular com internet — Android ou iPhone, antigo ou novo. É um site otimizado pra celular: abre no navegador (Chrome, Safari), não precisa baixar nada da Play Store nem da App Store. Se quiser, salva o atalho na tela inicial que fica com cara de app. E boa parte do dia a dia você resolve só pelo WhatsApp, com o Jaime.
+          </div>
+        </div>
         <div class="bg-bg-soft rounded-2xl border border-border-soft overflow-hidden" x-data="{ open: false }">
           <button @click="open = !open" class="w-full flex items-center justify-between p-5 text-left">
             <span class="font-semibold text-ink-900">Posso cancelar quando quiser?</span>
             <span class="text-2xl text-ink-700 transition-transform" :class="{ 'rotate-45': open }">+</span>
           </button>
-          <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="px-5 pb-5 text-ink-700 leading-relaxed" style="display: none;">
-            Pode. Sem multa, sem fidelidade, sem ligação pra central. No app, vai em Perfil → Assinatura → Cancelar. Você continua usando normalmente até o fim do período que pagou. Depois disso (ou se o trial de 7 dias acabar sem você assinar), o app fica em modo consulta — você acessa todo seu histórico, mas pra cadastrar lançamentos novos precisa voltar a ser Premium. Seus dados ficam guardados sempre.
+          <div x-show="open" x-transition class="px-5 pb-5 text-ink-700 leading-relaxed" style="display:none">
+            Pode. Sem multa, sem fidelidade, sem ligação pra central. Você continua usando até o fim do período que pagou. Depois disso, o app fica em modo consulta — você acessa todo o histórico, mas pra cadastrar lançamentos novos precisa voltar a ser assinante. Seus dados ficam guardados sempre.
           </div>
         </div>
-
-        <div class="bg-bg-soft rounded-2xl border border-border-soft overflow-hidden" x-data="{ open: false }">
-          <button @click="open = !open" class="w-full flex items-center justify-between p-5 text-left">
-            <span class="font-semibold text-ink-900">Meus dados ficam seguros?</span>
-            <span class="text-2xl text-ink-700 transition-transform" :class="{ 'rotate-45': open }">+</span>
-          </button>
-          <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="px-5 pb-5 text-ink-700 leading-relaxed" style="display: none;">
-            Seus dados são só seus. A gente não vende, não compartilha com ninguém, não usa pra propaganda. Os dados ficam num banco protegido (Supabase), e só você acessa com sua senha. Se quiser apagar tudo, é só pedir — a gente apaga em até 30 dias, conforme a LGPD.
-          </div>
-        </div>
-
         <div class="bg-bg-soft rounded-2xl border border-border-soft overflow-hidden" x-data="{ open: false }">
           <button @click="open = !open" class="w-full flex items-center justify-between p-5 text-left">
             <span class="font-semibold text-ink-900">E se eu não souber mexer com tecnologia?</span>
             <span class="text-2xl text-ink-700 transition-transform" :class="{ 'rotate-45': open }">+</span>
           </button>
-          <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="px-5 pb-5 text-ink-700 leading-relaxed" style="display: none;">
-            O Gestão na Mão foi feito pra ser simples. Você cadastra um frete em 20 segundos: data, KM, valor, contrato. Pronto. Não tem termo difícil tipo "EBITDA" ou "fluxo de caixa". Se travar em algo, manda no WhatsApp — quem responde é gente, não robô.
+          <div x-show="open" x-transition class="px-5 pb-5 text-ink-700 leading-relaxed" style="display:none">
+            Se você usa WhatsApp, você usa o Gestão na Mão. É só mandar mensagem pro Jaime do jeito que você fala. Nada de termo difícil tipo "EBITDA" ou "fluxo de caixa". Se travar em algo, manda no WhatsApp que a gente ajuda — quem responde é gente.
           </div>
         </div>
       </div>
@@ -752,14 +977,10 @@
   <!-- ============== CTA FINAL ============== -->
   <section class="bg-brand-gold">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-20 text-center">
-      <h2 class="text-3xl sm:text-5xl font-extrabold text-ink-900 leading-tight tracking-tight">
-        Pare de rodar no escuro.
-      </h2>
-      <p class="mt-4 text-lg text-ink-900/80 max-w-xl mx-auto">
-        Em menos de 1 minuto você cria sua conta e começa a ver onde seu dinheiro está indo.
-      </p>
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-navy-900 leading-tight tracking-tight">Pare de rodar no escuro.</h2>
+      <p class="mt-4 text-lg text-navy-900/80 max-w-xl mx-auto">Em menos de 1 minuto você cria sua conta e começa a lançar seus fretes pelo WhatsApp com o Jaime.</p>
       <div class="mt-8">
-        <a href="https://app.gestaonamao.app.br/login" class="inline-flex items-center justify-center bg-ink-900 hover:bg-black text-white font-bold text-lg px-8 py-4 rounded-xl shadow-lg transition">
+        <a href="https://app.gestaonamao.app.br/login" class="inline-flex items-center justify-center bg-navy-900 hover:bg-black text-white font-bold text-lg px-8 py-4 rounded-xl shadow-lg transition">
           Começar grátis
           <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
@@ -768,33 +989,22 @@
   </section>
 
   <!-- ============== FOOTER ============== -->
-  <footer class="bg-ink-900 text-white/70">
+  <footer class="bg-navy-900 text-white/70">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
       <div class="flex flex-col items-center text-center gap-6">
         <div class="flex items-center justify-center gap-3 mb-4">
-          <img
-            src="assets/logo-frete.png"
-            alt="Logo Gestão na Mão"
-            class="w-10 h-10 rounded-lg object-contain"
-          />
-          <span class="text-xl font-bold text-white">
-            Gestão na <span class="text-brand-gold">Mão</span>
-          </span>
+          <img src="assets/logo-frete.png" alt="Logo Gestão na Mão" class="w-10 h-10 rounded-lg object-contain" />
+          <span class="text-xl font-bold text-white">Gestão na <span class="text-brand-gold">Mão</span></span>
         </div>
-
         <nav class="flex items-center gap-8 text-sm">
           <a href="termos.html" class="hover:text-white">Termos de uso</a>
           <a href="privacidade.html" class="hover:text-white">Privacidade</a>
         </nav>
-
         <a href="https://wa.me/5534997989375?text=Ol%C3%A1%21%20Vim%20pelo%20site%20do%20Gest%C3%A3o%20na%20M%C3%A3o." class="inline-flex items-center gap-2 text-sm text-white/60 hover:text-brand-gold transition">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>
           Fale conosco no WhatsApp
         </a>
-
-        <p class="text-xs text-white/40 mt-4">
-          © 2026 Gestão na Mão
-        </p>
+        <p class="text-xs text-white/40 mt-4">© 2026 Gestão na Mão · by Dinamus</p>
       </div>
     </div>
   </footer>
