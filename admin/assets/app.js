@@ -31,6 +31,15 @@ function formatDateTime(iso) {
   const d = new Date(iso);
   return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 }
+// WhatsApp vem como 11 dígitos (DDD + 9 + 8). Mostra formatado e clicável, pra
+// dar pra falar com a pessoa direto do painel.
+function linkWhatsapp(wpp) {
+  if (!wpp) return '<span class="text-slate-400 italic">—</span>';
+  const d = String(wpp).replace(/\D/g, '');
+  if (d.length < 10) return '<span class="text-slate-400 italic">—</span>';
+  const bonito = `(${d.slice(0, 2)}) ${d.slice(2, d.length - 4)}-${d.slice(-4)}`;
+  return `<a href="https://wa.me/55${d}" target="_blank" rel="noopener noreferrer" class="text-green-700 hover:underline font-mono">${bonito}</a>`;
+}
 function badgeStatus(status, diasExpirar) {
   if (status === 'active') {
     if (diasExpirar !== null && diasExpirar <= 7) return '<span class="bg-orange-100 text-orange-800 px-2 py-0.5 rounded text-xs font-medium">⚠️ Ativo</span>';
@@ -119,7 +128,13 @@ function aplicarFiltros() {
   const statusFiltro = document.getElementById('filtro-status').value;
   let filtrados = usuariosCache;
   if (busca) {
-    filtrados = filtrados.filter(u => (u.email||'').toLowerCase().includes(busca) || (u.empresa_nome||'').toLowerCase().includes(busca));
+    // busca tambem por WhatsApp (so digitos, pra achar mesmo digitando com mascara)
+    const buscaDigitos = busca.replace(/\D/g, '');
+    filtrados = filtrados.filter(u =>
+      (u.email||'').toLowerCase().includes(busca)
+      || (u.empresa_nome||'').toLowerCase().includes(busca)
+      || (buscaDigitos.length >= 4 && String(u.whatsapp||'').includes(buscaDigitos))
+    );
   }
   if (statusFiltro === 'active') filtrados = filtrados.filter(u => u.status==='active' && u.dias_ate_expirar>0);
   else if (statusFiltro === 'trial') filtrados = filtrados.filter(u => u.status==='trial' && u.dias_ate_expirar>=0);
@@ -136,6 +151,8 @@ function renderizarUsuarios(lista) {
       : `<button class="btn-acoes px-2 py-1 hover:bg-slate-200 rounded text-slate-600 text-lg font-bold" data-user-id="${u.user_id}" data-email="${u.email}" data-empresa="${u.empresa_nome || 'sem empresa'}" data-status="${u.status}" title="Ações">⋯</button>`;
     return `<tr class="hover:bg-slate-50">
       <td class="px-3 py-2 font-mono text-xs">${u.email || '-'}</td>
+      <td class="px-3 py-2 text-center" title="${u.email_confirmado ? 'E-mail confirmado' : 'NUNCA confirmou o e-mail — não consegue entrar no app'}">${u.email_confirmado ? '✅' : '⚠️'}</td>
+      <td class="px-3 py-2 text-xs">${linkWhatsapp(u.whatsapp)}</td>
       <td class="px-3 py-2">${u.empresa_nome || '<span class="text-slate-400 italic">sem empresa</span>'}</td>
       <td class="px-3 py-2">${badgeStatus(u.status, u.dias_ate_expirar)}</td>
       <td class="px-3 py-2 text-xs">${u.plano || '-'}</td>
@@ -148,7 +165,7 @@ function renderizarUsuarios(lista) {
       <td class="px-3 py-2 text-center">${acaoBtn}</td>
     </tr>`;
   }).join('');
-  document.getElementById('tabela-usuarios').innerHTML = html || '<tr><td colspan="11" class="text-center py-6 text-slate-400">Nenhum usuário com esses filtros</td></tr>';
+  document.getElementById('tabela-usuarios').innerHTML = html || '<tr><td colspan="13" class="text-center py-6 text-slate-400">Nenhum usuário com esses filtros</td></tr>';
 
   document.querySelectorAll('.btn-acoes').forEach(btn => {
     btn.addEventListener('click', (e) => {
